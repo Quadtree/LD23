@@ -310,7 +310,7 @@ public abstract class Ship extends Actor implements Listener, playn.core.Keyboar
 		//target.rotate(-body.getAngle() - (float)Math.PI / 2);
 		
 		//target.translate(-body.getPosition().x, -body.getPosition().y);
-		target.drawImageCentered(starfield, 0, 0);
+		target.drawImage(starfield, -600, -600);
 		
 		target.restore();
 		

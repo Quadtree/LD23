@@ -38,6 +38,9 @@ public class SpaceImperatorGame implements Game, Renderer, ContactListener {
 	
 	Image minimap;
 	
+	Image healthFull;
+	Image healthDepleted;
+	
 	@Override
 	public void init() {
 		s = this;
@@ -59,6 +62,9 @@ public class SpaceImperatorGame implements Game, Renderer, ContactListener {
 		actors.add(new Fighter(new Vec2(30,30)));
 		
 		minimap = assets().getImage("images/minimap.png");
+		
+		healthFull = assets().getImage("images/health_full.png");
+		healthDepleted = assets().getImage("images/health_depleted.png");
 	}
 
 	@Override
@@ -114,6 +120,21 @@ public class SpaceImperatorGame implements Game, Renderer, ContactListener {
 		surface.drawImage(minimap, minimapUL.x - 8, minimapUL.y - 8);
 		
 		for(Actor a : actors) a.renderToMinimap(minimapUL, surface);
+		
+		for(int i=0;i<pc.getMaxHP();++i)
+		{
+			int x = i % 25;
+			int y = i / 25;
+			
+			Image img = null;
+			
+			if(i >= (int)pc.hp)
+				img = healthDepleted;
+			else
+				img = healthFull;
+			
+			surface.drawImage(img, x * 20 + 20, y * 20 + 20);
+		}
 	}
 
 	@Override
