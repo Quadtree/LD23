@@ -53,10 +53,10 @@ public class Planet extends Actor {
 		
 		switch(type)
 		{
-			case Tiny: cs.m_radius = 10; break;
-			case Small: cs.m_radius = 20; break;
-			case Medium: cs.m_radius = 40; break;
-			case Large: cs.m_radius = 80; break;
+			case Tiny: cs.m_radius = 5; break;
+			case Small: cs.m_radius = 10; break;
+			case Medium: cs.m_radius = 20; break;
+			case Large: cs.m_radius = 40; break;
 		}
 		
 		BodyDef bd = new BodyDef();
