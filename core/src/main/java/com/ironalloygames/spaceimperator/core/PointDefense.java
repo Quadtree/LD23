@@ -43,7 +43,6 @@ public class PointDefense extends Gun {
 			
 			if(target != null)
 			{
-				System.out.println(target.colGroup + " " + owner.colGroup);
 				SpaceImperatorGame.s.actors.add(new Beam(pos, target.body.getPosition()));
 				target.takeDamage(1);
 				cooldown = 25;
