@@ -7,7 +7,9 @@ import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.FixtureDef;
 
+import playn.core.CanvasImage;
 import playn.core.Image;
+import playn.core.ImageLayer;
 import playn.core.PlayN;
 import playn.core.Keyboard.Event;
 import playn.core.Keyboard.TypedEvent;
@@ -43,6 +45,9 @@ public abstract class Ship extends Actor implements Listener, playn.core.Keyboar
 	
 	Vec2 mousePos;
 	
+	int turn;
+	int thrust;
+	
 	public Ship(Vec2 pos)
 	{
 		PolygonShape ps = new PolygonShape();
@@ -64,7 +69,7 @@ public abstract class Ship extends Actor implements Listener, playn.core.Keyboar
 	
 	@Override
 	public void update() {
-		if(body.getAngularVelocity() < 0.5f) body.applyAngularImpulse(.5f);
+		//if(body.getAngularVelocity() < 0.5f) body.applyAngularImpulse(.5f);
 		
 		if(mousePos != null) aim = screenToReal(mousePos);
 		
@@ -73,12 +78,29 @@ public abstract class Ship extends Actor implements Listener, playn.core.Keyboar
 			firePoint.set(aim);
 		} else {
 			Vec2 delta = aim.sub(body.getPosition());
-			System.out.println(delta);
+			//System.out.println(delta);
 			float angle = body.getAngle();
 			firePoint.x = (float)Math.cos(angle) * delta.length();
 			firePoint.y = (float)Math.sin(angle) * delta.length();
 			firePoint.addLocal(body.getPosition());
 		}
+		
+		Vec2 pLeft = body.getPosition().add(new Vec2((float)Math.cos(body.getAngle() - 0.1f), (float)Math.sin(body.getAngle() - 0.1f)));
+		Vec2 pCenter = body.getPosition().add(new Vec2((float)Math.cos(body.getAngle()), (float)Math.sin(body.getAngle())));
+		Vec2 pRight = body.getPosition().add(new Vec2((float)Math.cos(body.getAngle() + 0.1f), (float)Math.sin(body.getAngle() + 0.1f)));
+		
+		float lLeft = aim.sub(pLeft).lengthSquared();
+		float lCenter = aim.sub(pCenter).lengthSquared();
+		float lRight = aim.sub(pRight).lengthSquared();
+		
+		if(lLeft < lCenter && lLeft < lRight)
+			turn = -1;
+		else if(lRight < lCenter && lRight < lLeft)
+			turn = 1;
+		else
+			turn = 0;
+		
+		body.setAngularVelocity(getTurnPower() * turn);
 		
 		super.update();
 	}
@@ -144,9 +166,48 @@ public abstract class Ship extends Actor implements Listener, playn.core.Keyboar
 		super.destroyed();
 	}
 	
+	static CanvasImage starfield;
+	
 	public void cameraTrack(Surface target)
 	{
 		//target.setTransform(1, 0, 0, 1, 0, 0);
+		
+		if(starfield == null)
+		{
+			/*ImageLayer il = PlayN.graphics().createImageLayer();
+			
+			il.setWidth(2000);
+			il.setHeight(2000);
+			il.setDepth(32);
+			il.setImage(image)
+			
+			starfield = il.image();*/
+			
+			starfield = PlayN.graphics().createImage(2000, 2000);
+			
+			for(int i=0;i<1500;++i)
+			{
+				int r,g,b,a;
+				
+				a = SpaceImperatorGame.s.rand.nextInt(255);
+				r = SpaceImperatorGame.s.rand.nextInt(50) + 200;
+				g = SpaceImperatorGame.s.rand.nextInt(50) + 200;
+				b = SpaceImperatorGame.s.rand.nextInt(50) + 200;
+				
+				starfield.canvas().setStrokeColor((a << 24) + (r << 16) + (g << 8) + r);
+				starfield.canvas().drawPoint(SpaceImperatorGame.s.rand.nextInt(starfield.width()), SpaceImperatorGame.s.rand.nextInt(starfield.height()));
+			}
+		}
+		
+		target.save();
+		
+		target.translate(-body.getPosition().x + SpaceImperatorGame.WINDOW_WIDTH / 2, -body.getPosition().y + SpaceImperatorGame.WINDOW_HEIGHT / 2);
+		target.rotate(-body.getAngle() - (float)Math.PI / 2);
+		
+		//target.translate(-body.getPosition().x, -body.getPosition().y);
+		target.drawImageCentered(starfield, 0, 0);
+		
+		target.restore();
 		
 		target.translate(SpaceImperatorGame.WINDOW_WIDTH / 2, SpaceImperatorGame.WINDOW_HEIGHT / 2);
 		
