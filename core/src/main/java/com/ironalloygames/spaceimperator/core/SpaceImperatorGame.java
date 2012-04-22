@@ -47,11 +47,21 @@ public class SpaceImperatorGame implements Game, Renderer, ContactListener {
 	
 	CanvasImage overlay;
 	
-	float credits = 20000;
+	float credits = 0;
 	
 	Vec2[] dustPos;
 	
-	String upgradeText;
+	String upgradeText = "";
+	
+	boolean titleScreen = true;
+	boolean introScreen = true;
+	boolean victoryScreen = false;
+	boolean defeatScreen = false;
+	
+	Image titleImage;
+	Image introImage;
+	Image victoryImage;
+	Image defeatImage;
 	
 	@Override
 	public void init() {
@@ -98,6 +108,9 @@ public class SpaceImperatorGame implements Game, Renderer, ContactListener {
 		
 		for(int i=0;i<dustPos.length;++i)
 			dustPos[i] = new Vec2(rand.nextFloat() * WINDOW_WIDTH, rand.nextFloat() * WINDOW_HEIGHT);
+		
+		titleImage = assets().getImage("images/title.png");
+		introImage = assets().getImage("images/intro.png");
 	}
 
 	@Override
@@ -106,6 +119,8 @@ public class SpaceImperatorGame implements Game, Renderer, ContactListener {
 
 	@Override
 	public void update(float delta) {
+		
+		
 		if(pc != null && !pc.keep())
 		{
 			pc = null;
@@ -115,11 +130,13 @@ public class SpaceImperatorGame implements Game, Renderer, ContactListener {
 		if(pc == null)
 		{
 			credits *= 0.6f;
-			pc = new Fighter(new Vec2(120,120));
+			pc = new Fighter(new Vec2(6,6));
 			actors.add(pc);
 			mouse().setListener(pc);
 			keyboard().setListener(pc);
 		}
+		
+		if(introScreen || titleScreen || defeatScreen || victoryScreen) return;
 		
 		for(int i=0;i<actors.size();++i)
 		{
@@ -143,6 +160,13 @@ public class SpaceImperatorGame implements Game, Renderer, ContactListener {
 
 	@Override
 	public void render(Surface surface) {
+		
+		if(titleScreen)
+		{
+			surface.drawImage(titleImage, 0, 0);
+			return;
+		}
+		
 		
 		pc.drawStarfield(surface);
 		
@@ -217,6 +241,11 @@ public class SpaceImperatorGame implements Game, Renderer, ContactListener {
 			overlay.canvas().drawText(s, 20, cy += 18);
 		
 		surface.drawImage(overlay, 0, 0);
+		
+		if(introScreen)
+		{
+			surface.drawImage(introImage, 0, 0);
+		}
 	}
 
 	@Override

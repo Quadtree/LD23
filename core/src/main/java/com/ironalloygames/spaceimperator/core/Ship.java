@@ -464,6 +464,8 @@ public abstract class Ship extends Actor implements Listener, playn.core.Keyboar
 	
 	@Override
 	public void onKeyDown(Event event) {
+		if(inputGotten()) return;
+		
 		if(event.key() == Key.W) forwardThrust = true;
 		if(event.key() == Key.S) stopThrust = true;
 		if(event.key() == Key.A) leftThrust = true;
@@ -484,12 +486,30 @@ public abstract class Ship extends Actor implements Listener, playn.core.Keyboar
 			upgrade();
 		}
 		
+		if(event.key() == Key.F1) SpaceImperatorGame.s.introScreen = true;
+		
 		thrustCheck();
 	}
 	@Override
 	public void onKeyTyped(TypedEvent event) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	boolean inputGotten()
+	{
+		if(SpaceImperatorGame.s.titleScreen)
+		{
+			SpaceImperatorGame.s.titleScreen = false;
+			return true;
+		}
+		if(SpaceImperatorGame.s.introScreen)
+		{
+			SpaceImperatorGame.s.introScreen = false;
+			return true;
+		}
+		
+		return false;
 	}
 	
 	
@@ -505,6 +525,8 @@ public abstract class Ship extends Actor implements Listener, playn.core.Keyboar
 	}
 	@Override
 	public void onMouseDown(ButtonEvent event) {
+		if(inputGotten()) return;
+		
 		//System.out.println(screenToReal(new Vec2(event.x(), event.y())));
 		
 		if(event.button() == Mouse.BUTTON_LEFT) fireBolts = true;
