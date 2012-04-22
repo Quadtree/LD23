@@ -54,8 +54,17 @@ public class SpaceImperatorGame implements Game, Renderer, ContactListener {
 		
 		//actors.add(new Planet(new Vec2(0, 40), Planet.PlanetSize.Tiny, false));
 		
-		for(int i=0;i<10;++i)
-			actors.add(new Planet());
+		for(int i=0;i<4;++i)
+			actors.add(new Planet(Planet.PlanetSize.Tiny));
+		
+		for(int i=0;i<3;++i)
+			actors.add(new Planet(Planet.PlanetSize.Small));
+		
+		for(int i=0;i<2;++i)
+			actors.add(new Planet(Planet.PlanetSize.Medium));
+		
+		for(int i=0;i<1;++i)
+			actors.add(new Planet(Planet.PlanetSize.Large));
 		
 		graphics().setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 		

@@ -45,15 +45,15 @@ public class Planet extends Actor {
 	int nextDefense = 0;
 	int defCooldown = 0;
 	
-	public Planet()
+	public Planet(PlanetSize type)
 	{
-		int size = 0;
+		//int size = 0;
 		
 		//while(SpaceImperatorGame.s.rand.nextInt(3) == 0) size++;
 		
-		if(size >= PlanetSize.values().length) size = PlanetSize.values().length - 1;
+		//if(size >= PlanetSize.values().length) size = PlanetSize.values().length - 1;
 		
-		init(new Vec2(SpaceImperatorGame.s.rand.nextFloat() * SpaceImperatorGame.WORLD_WIDTH, SpaceImperatorGame.s.rand.nextFloat() * SpaceImperatorGame.WORLD_HEIGHT), PlanetSize.values()[size]);
+		init(new Vec2(SpaceImperatorGame.s.rand.nextFloat() * SpaceImperatorGame.WORLD_WIDTH, SpaceImperatorGame.s.rand.nextFloat() * SpaceImperatorGame.WORLD_HEIGHT), type);
 	}
 	
 	public Planet(Vec2 pos, PlanetSize type, boolean ownedByPlayer)
@@ -126,10 +126,19 @@ public class Planet extends Actor {
 			mmEnemyGraphics = new EnumMap<PlanetSize, Image>(PlanetSize.class);
 			
 			planetGraphics.put(PlanetSize.Tiny, PlayN.assets().getImage("images/planet_tiny.png"));
+			planetGraphics.put(PlanetSize.Small, PlayN.assets().getImage("images/planet_small.png"));
+			planetGraphics.put(PlanetSize.Medium, PlayN.assets().getImage("images/planet_medium.png"));
+			planetGraphics.put(PlanetSize.Large, PlayN.assets().getImage("images/planet_large.png"));
 			
-			mmAlliedGraphics.put(PlanetSize.Tiny, PlayN.assets().getImage("images/mmi_planet_small_allied.png"));
+			mmAlliedGraphics.put(PlanetSize.Tiny, PlayN.assets().getImage("images/mmi_planet_tiny_allied.png"));
+			mmAlliedGraphics.put(PlanetSize.Small, PlayN.assets().getImage("images/mmi_planet_small_allied.png"));
+			mmAlliedGraphics.put(PlanetSize.Medium, PlayN.assets().getImage("images/mmi_planet_medium_allied.png"));
+			mmAlliedGraphics.put(PlanetSize.Large, PlayN.assets().getImage("images/mmi_planet_large_allied.png"));
 			
-			mmEnemyGraphics.put(PlanetSize.Tiny, PlayN.assets().getImage("images/mmi_planet_small_enemy.png"));
+			mmEnemyGraphics.put(PlanetSize.Tiny, PlayN.assets().getImage("images/mmi_planet_tiny_enemy.png"));
+			mmEnemyGraphics.put(PlanetSize.Small, PlayN.assets().getImage("images/mmi_planet_small_enemy.png"));
+			mmEnemyGraphics.put(PlanetSize.Medium, PlayN.assets().getImage("images/mmi_planet_medium_enemy.png"));
+			mmEnemyGraphics.put(PlanetSize.Large, PlayN.assets().getImage("images/mmi_planet_large_enemy.png"));
 			
 			popGraphic = PlayN.assets().getImage("images/pop.png");
 			enemyDefense = PlayN.assets().getImage("images/defense_enemy.png");
@@ -226,7 +235,7 @@ public class Planet extends Actor {
 					target = SpaceImperatorGame.s.pc;
 				}
 				
-				if(target != null && pos.sub(target.body.getPosition()).length() < 50)
+				if(target != null && pos.sub(target.body.getPosition()).length() < 150)
 				{
 					SpaceImperatorGame.s.actors.add(new Bolt(pos, target.body.getPosition().add(new Vec2(SpaceImperatorGame.s.rand.nextFloat() * 6 - 3, SpaceImperatorGame.s.rand.nextFloat() * 6 - 3)), new Vec2(), colGroup, 120));
 					defCooldown = (int)(15 / defenses);
