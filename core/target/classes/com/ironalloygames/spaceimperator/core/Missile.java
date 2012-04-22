@@ -110,4 +110,10 @@ public class Missile extends Actor {
 		super.update();
 	}
 
+	@Override
+	void takeDamage(float amount) {
+		life = 0;
+		super.takeDamage(amount);
+	}
+
 }

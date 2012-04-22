@@ -89,4 +89,10 @@ public class Bolt extends Actor {
 		life--;
 		super.update();
 	}
+	
+	@Override
+	void takeDamage(float amount) {
+		life = 0;
+		super.takeDamage(amount);
+	}
 }

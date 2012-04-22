@@ -22,6 +22,14 @@ public class Battleship extends Ship {
 		guns.add(new BoltCannon(new Vec2(-1,2)));
 		guns.add(new BoltCannon(new Vec2(0.5f,1f)));
 		guns.add(new BoltCannon(new Vec2(3.2f,1f)));
+		
+		guns.add(new PointDefense(new Vec2(2.3f,0.8f), this));
+		guns.add(new PointDefense(new Vec2(0.0f,0.8f), this));
+		guns.add(new PointDefense(new Vec2(-2.3f,0.8f), this));
+		
+		guns.add(new PointDefense(new Vec2(2.3f,-0.8f), this));
+		guns.add(new PointDefense(new Vec2(0.0f,-0.8f), this));
+		guns.add(new PointDefense(new Vec2(-2.3f,-0.8f), this));
 	}
 	
 	void graphicCheck(){
