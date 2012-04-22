@@ -10,6 +10,7 @@ import org.jbox2d.dynamics.FixtureDef;
 import playn.core.CanvasImage;
 import playn.core.Image;
 import playn.core.ImageLayer;
+import playn.core.Key;
 import playn.core.PlayN;
 import playn.core.Keyboard.Event;
 import playn.core.Keyboard.TypedEvent;
@@ -47,6 +48,7 @@ public abstract class Ship extends Actor implements Listener, playn.core.Keyboar
 	
 	int turn;
 	int thrust;
+	int strafe;
 	
 	public Ship(Vec2 pos)
 	{
@@ -101,6 +103,12 @@ public abstract class Ship extends Actor implements Listener, playn.core.Keyboar
 			turn = 0;
 		
 		body.setAngularVelocity(getTurnPower() * turn);
+		
+		if(thrust == 1)
+		{
+			body.applyLinearImpulse(new Vec2((float)Math.cos(body.getAngle()) * this.getThrustPower(), (float)Math.sin(body.getAngle()) * this.getThrustPower()), body.getPosition());
+			//System.out.println("FULL PO");
+		}
 		
 		super.update();
 	}
@@ -194,7 +202,7 @@ public abstract class Ship extends Actor implements Listener, playn.core.Keyboar
 				g = SpaceImperatorGame.s.rand.nextInt(50) + 200;
 				b = SpaceImperatorGame.s.rand.nextInt(50) + 200;
 				
-				starfield.canvas().setStrokeColor((a << 24) + (r << 16) + (g << 8) + r);
+				starfield.canvas().setStrokeColor((a << 24) + (r << 16) + (g << 8) + b);
 				starfield.canvas().drawPoint(SpaceImperatorGame.s.rand.nextInt(starfield.width()), SpaceImperatorGame.s.rand.nextInt(starfield.height()));
 			}
 		}
@@ -202,7 +210,7 @@ public abstract class Ship extends Actor implements Listener, playn.core.Keyboar
 		target.save();
 		
 		target.translate(-body.getPosition().x + SpaceImperatorGame.WINDOW_WIDTH / 2, -body.getPosition().y + SpaceImperatorGame.WINDOW_HEIGHT / 2);
-		target.rotate(-body.getAngle() - (float)Math.PI / 2);
+		//target.rotate(-body.getAngle() - (float)Math.PI / 2);
 		
 		//target.translate(-body.getPosition().x, -body.getPosition().y);
 		target.drawImageCentered(starfield, 0, 0);
@@ -212,34 +220,68 @@ public abstract class Ship extends Actor implements Listener, playn.core.Keyboar
 		target.translate(SpaceImperatorGame.WINDOW_WIDTH / 2, SpaceImperatorGame.WINDOW_HEIGHT / 2);
 		
 		target.scale(16, 16);
-		target.rotate(-body.getAngle() - (float)Math.PI / 2);
+		//target.rotate(-body.getAngle() - (float)Math.PI / 2);
 		target.translate(-body.getPosition().x, -body.getPosition().y);
 	}
 	
 	public Vec2 screenToReal(Vec2 screen)
 	{
 		Vec2 delta = screen.sub(new Vec2(SpaceImperatorGame.WINDOW_WIDTH / 2, SpaceImperatorGame.WINDOW_HEIGHT / 2));
-		float angle = (float)Math.atan2(delta.y, delta.x) + body.getAngle() + (float)Math.PI / 2;
+		float angle = (float)Math.atan2(delta.y, delta.x) /*+ body.getAngle() + (float)Math.PI / 2*/;
 		float dist = delta.length() / 16;
 		
 		Vec2 pos = body.getPosition().add(new Vec2((float)Math.cos(angle) * dist, (float)Math.sin(angle) * dist));
 		
 		return pos;
 	}
+	
+	boolean leftThrust;
+	boolean rightThrust;
+	boolean forwardThrust;
+	boolean stopThrust;
+	
+	void thrustCheck()
+	{
+		if(leftThrust && !rightThrust)
+			strafe = -1;
+		else if(!leftThrust && rightThrust)
+			strafe = 1;
+		else
+			strafe = 0;
+		
+		if(forwardThrust && !stopThrust)
+			thrust = 1;
+		else if(!forwardThrust && stopThrust)
+			thrust = -1;
+		else
+			thrust = 0;
+	}
+	
 	@Override
 	public void onKeyDown(Event event) {
-		// TODO Auto-generated method stub
+		if(event.key() == Key.W) forwardThrust = true;
+		if(event.key() == Key.S) stopThrust = true;
+		if(event.key() == Key.A) leftThrust = true;
+		if(event.key() == Key.D) rightThrust = true;
 		
+		thrustCheck();
 	}
 	@Override
 	public void onKeyTyped(TypedEvent event) {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	
+	
 	@Override
 	public void onKeyUp(Event event) {
-		// TODO Auto-generated method stub
+		if(event.key() == Key.W) forwardThrust = false;
+		if(event.key() == Key.S) stopThrust = false;
+		if(event.key() == Key.A) leftThrust = false;
+		if(event.key() == Key.D) rightThrust = false;
 		
+		thrustCheck();
 	}
 	@Override
 	public void onMouseDown(ButtonEvent event) {
