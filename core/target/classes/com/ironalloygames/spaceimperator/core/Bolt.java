@@ -21,7 +21,6 @@ public class Bolt extends Actor {
 	{
 		this.life = life;
 		this.colGroup = colGroup;
-		System.out.println(colGroup);
 		CircleShape cs = new CircleShape();
 		
 		cs.m_radius = 0.3f;

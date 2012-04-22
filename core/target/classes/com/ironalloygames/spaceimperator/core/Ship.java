@@ -430,6 +430,7 @@ public abstract class Ship extends Actor implements Listener, playn.core.Keyboar
 		
 		if(event.key() == Key.U && SpaceImperatorGame.s.upgradeText.length() > 0)
 		{
+			SpaceImperatorGame.s.credits -= getUpgradeCost();
 			upgrade();
 		}
 		
