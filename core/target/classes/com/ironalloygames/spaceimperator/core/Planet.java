@@ -85,7 +85,7 @@ public class Planet extends Actor {
 		
 		Image graphic = planetGraphics.get(type);
 		
-		target.drawImage(graphic, -graphic.width() / 2 / 16, -graphic.height() / 2 / 16, graphic.width() / 16, graphic.height() / 16);
+		target.drawImage(graphic, -graphic.width() / 2.f / 16.f, -graphic.height() / 2.f / 16.f, graphic.width() / 16.f, graphic.height() / 16.f);
 		
 		target.restore();
 		

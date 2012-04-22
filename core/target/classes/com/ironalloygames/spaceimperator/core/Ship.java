@@ -46,6 +46,8 @@ public abstract class Ship extends Actor {
 	
 	@Override
 	public void update() {
+		body.applyAngularImpulse(5);
+		
 		super.update();
 	}
 	
@@ -53,11 +55,13 @@ public abstract class Ship extends Actor {
 	public void render(Surface target) {
 		target.save();
 		target.translate(body.getPosition().x, body.getPosition().y);
-		target.rotate(body.getAngle() + 1.5f);
+		target.rotate(body.getAngle());
+		
+		System.out.println(body.getPosition());
 		
 		Image graphic = getGraphic();
 		
-		target.drawImage(graphic, -graphic.width() / 2 / 16, -graphic.height() / 2 / 16, graphic.width() / 16, graphic.height() / 16);
+		target.drawImage(graphic, -graphic.width() / 2.f / 16.f, -graphic.height() / 2.f / 16.f, graphic.width() / 16.f, graphic.height() / 16.f);
 		target.restore();
 		super.render(target);
 	}
@@ -79,5 +83,14 @@ public abstract class Ship extends Actor {
 		super.destroyed();
 	}
 	
-	
+	public void cameraTrack(Surface target)
+	{
+		//target.setTransform(1, 0, 0, 1, 0, 0);
+		
+		target.translate(SpaceImperatorGame.WINDOW_WIDTH / 2, SpaceImperatorGame.WINDOW_HEIGHT / 2);
+		
+		target.scale(16, 16);
+		target.rotate(-body.getAngle());
+		target.translate(-body.getPosition().x, -body.getPosition().y);
+	}
 }
