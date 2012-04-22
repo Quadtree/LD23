@@ -55,4 +55,9 @@ public class Fighter extends Ship {
 		return 25.0f;
 	}
 
+	@Override
+	Vec2 getSize() {
+		return new Vec2(25.f / 16.f, 25.f / 16.f);
+	}
+
 }

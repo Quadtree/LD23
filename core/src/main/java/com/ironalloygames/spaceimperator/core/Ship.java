@@ -56,7 +56,7 @@ public abstract class Ship extends Actor implements Listener, playn.core.Keyboar
 	{
 		PolygonShape ps = new PolygonShape();
 		
-		ps.setAsBox(getGraphic().width() / 2 / 16, getGraphic().height() / 2 / 16);
+		ps.setAsBox(getSize().x / 2, getSize().y / 2);
 		
 		BodyDef bd = new BodyDef();
 		
@@ -130,11 +130,9 @@ public abstract class Ship extends Actor implements Listener, playn.core.Keyboar
 		target.translate(body.getPosition().x, body.getPosition().y);
 		target.rotate(body.getAngle());
 		
-		//System.out.println(body.getPosition());
+		Vec2 size = getSize();
 		
-		Image graphic = getGraphic();
-		
-		target.drawImage(graphic, -graphic.width() / 2.f / 16.f, -graphic.height() / 2.f / 16.f, graphic.width() / 16.f, graphic.height() / 16.f);
+		target.drawImage(getGraphic(), -size.x / 2, -size.y / 2, size.x, size.y);
 		target.restore();
 		
 		
@@ -314,4 +312,6 @@ public abstract class Ship extends Actor implements Listener, playn.core.Keyboar
 		// TODO Auto-generated method stub
 		
 	}
+	
+	abstract Vec2 getSize();
 }
