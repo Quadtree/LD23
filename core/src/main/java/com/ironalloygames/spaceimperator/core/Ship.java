@@ -50,6 +50,8 @@ public abstract class Ship extends Actor implements Listener, playn.core.Keyboar
 	int thrust;
 	int strafe;
 	
+	
+	
 	public Ship(Vec2 pos)
 	{
 		PolygonShape ps = new PolygonShape();
@@ -64,7 +66,14 @@ public abstract class Ship extends Actor implements Listener, playn.core.Keyboar
 		
 		body = SpaceImperatorGame.s.world.createBody(bd);
 		
-		body.createFixture(ps, 1);
+		claimColGroup();
+		
+		FixtureDef fd = new FixtureDef();
+		fd.shape = ps;
+		fd.density = 1;
+		fd.filter.groupIndex = -colGroup;
+		
+		body.createFixture(fd);
 		
 		hp = getMaxHP();
 	}
@@ -109,6 +118,8 @@ public abstract class Ship extends Actor implements Listener, playn.core.Keyboar
 			body.applyLinearImpulse(new Vec2((float)Math.cos(body.getAngle()) * this.getThrustPower(), (float)Math.sin(body.getAngle()) * this.getThrustPower()), body.getPosition());
 			//System.out.println("FULL PO");
 		}
+		
+		body.applyLinearImpulse(new Vec2((float)Math.cos(body.getAngle() + Math.PI / 2) * this.getThrustPower() * strafe, (float)Math.sin(body.getAngle() + Math.PI / 2) * this.getThrustPower() * strafe), body.getPosition());
 		
 		super.update();
 	}
@@ -171,6 +182,7 @@ public abstract class Ship extends Actor implements Listener, playn.core.Keyboar
 	public void destroyed() {
 		SpaceImperatorGame.s.world.destroyBody(body);
 		body = null;
+		claimedColGroups[colGroup] = false;
 		super.destroyed();
 	}
 	

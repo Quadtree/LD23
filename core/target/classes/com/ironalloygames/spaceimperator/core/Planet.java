@@ -8,6 +8,7 @@ import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.BodyType;
+import org.jbox2d.dynamics.FixtureDef;
 
 import playn.core.Image;
 import playn.core.ImmediateLayer;
@@ -66,7 +67,14 @@ public class Planet extends Actor {
 		
 		body = SpaceImperatorGame.s.world.createBody(bd);
 		
-		body.createFixture(cs, 0);
+		claimColGroup();
+		
+		FixtureDef fd = new FixtureDef();
+		fd.shape = cs;
+		fd.density = 0;
+		fd.filter.groupIndex = -colGroup;
+		
+		body.createFixture(fd);
 	}
 
 	@Override

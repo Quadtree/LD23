@@ -47,12 +47,12 @@ public class Fighter extends Ship {
 
 	@Override
 	public float getThrustPower() {
-		return 10;
+		return 20;
 	}
 
 	@Override
 	public float getTurnPower() {
-		return 15.0f;
+		return 25.0f;
 	}
 
 }
