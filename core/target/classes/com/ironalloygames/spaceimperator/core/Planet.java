@@ -28,6 +28,9 @@ public class Planet extends Actor {
 	
 	static EnumMap<PlanetSize, Image> planetGraphics;
 	
+	static EnumMap<PlanetSize, Image> mmAlliedGraphics;
+	static EnumMap<PlanetSize, Image> mmEnemyGraphics;
+	
 	static Image popGraphic;
 	static Image enemyDefense;
 	static Image alliedDefense;
@@ -46,11 +49,11 @@ public class Planet extends Actor {
 	{
 		int size = 0;
 		
-		while(SpaceImperatorGame.s.rand.nextInt(3) == 0) size++;
+		//while(SpaceImperatorGame.s.rand.nextInt(3) == 0) size++;
 		
 		if(size >= PlanetSize.values().length) size = PlanetSize.values().length - 1;
 		
-		init(new Vec2(SpaceImperatorGame.s.rand.nextFloat() * 5000, SpaceImperatorGame.s.rand.nextFloat() * 5000), PlanetSize.values()[size]);
+		init(new Vec2(SpaceImperatorGame.s.rand.nextFloat() * SpaceImperatorGame.WORLD_WIDTH, SpaceImperatorGame.s.rand.nextFloat() * SpaceImperatorGame.WORLD_HEIGHT), PlanetSize.values()[size]);
 	}
 	
 	public Planet(Vec2 pos, PlanetSize type, boolean ownedByPlayer)
@@ -119,8 +122,14 @@ public class Planet extends Actor {
 		if(planetGraphics == null)
 		{
 			planetGraphics = new EnumMap<PlanetSize, Image>(PlanetSize.class);
+			mmAlliedGraphics = new EnumMap<PlanetSize, Image>(PlanetSize.class);
+			mmEnemyGraphics = new EnumMap<PlanetSize, Image>(PlanetSize.class);
 			
 			planetGraphics.put(PlanetSize.Tiny, PlayN.assets().getImage("images/planet_tiny.png"));
+			
+			mmAlliedGraphics.put(PlanetSize.Tiny, PlayN.assets().getImage("images/mmi_planet_small_allied.png"));
+			
+			mmEnemyGraphics.put(PlanetSize.Tiny, PlayN.assets().getImage("images/mmi_planet_small_enemy.png"));
 			
 			popGraphic = PlayN.assets().getImage("images/pop.png");
 			enemyDefense = PlayN.assets().getImage("images/defense_enemy.png");
@@ -250,5 +259,20 @@ public class Planet extends Actor {
 		} else {
 			defenses -= 1;
 		}
+	}
+
+	@Override
+	void renderToMinimap(Vec2 upperLeft, Surface target) {
+		
+		Image img;
+		
+		if(ownedByPlayer)
+			img = mmAlliedGraphics.get(type);
+		else
+			img = mmEnemyGraphics.get(type);
+		
+		target.drawImage(img, upperLeft.x + body.getPosition().x / SpaceImperatorGame.WORLD_WIDTH * 234 - 12.5f, upperLeft.y + body.getPosition().y / SpaceImperatorGame.WORLD_HEIGHT * 234 - 12.5f, 25, 25);
+		
+		super.renderToMinimap(upperLeft, target);
 	}
 }

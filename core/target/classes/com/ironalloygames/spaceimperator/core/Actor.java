@@ -1,5 +1,6 @@
 package com.ironalloygames.spaceimperator.core;
 
+import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 
 import playn.core.ImmediateLayer;
@@ -33,4 +34,6 @@ public abstract class Actor {
 	
 	void collidedWith(Actor other){}
 	void takeDamage(float amount){}
+	
+	void renderToMinimap(Vec2 upperLeft, Surface target){}
 }

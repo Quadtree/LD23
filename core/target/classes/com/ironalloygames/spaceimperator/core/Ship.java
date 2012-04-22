@@ -28,6 +28,8 @@ public abstract class Ship extends Actor implements Listener, playn.core.Keyboar
 	static Image aimCircle;
 	static Image aimPoint;
 	
+	static Image mmiPlayer;
+	
 	public abstract Image getGraphic();
 	public abstract Image getForwardThrustGraphic();
 	public abstract Image getLeftThrustGraphic();
@@ -151,6 +153,14 @@ public abstract class Ship extends Actor implements Listener, playn.core.Keyboar
 		
 		dropPodCooldown--;
 		
+		final float SPEED_LIMIT = 400;
+		
+		if(body.getLinearVelocity().length() > SPEED_LIMIT)
+		{
+			body.getLinearVelocity().normalize();
+			body.getLinearVelocity().mulLocal(SPEED_LIMIT);
+		}
+		
 		super.update();
 	}
 	
@@ -268,6 +278,8 @@ public abstract class Ship extends Actor implements Listener, playn.core.Keyboar
 			il.setImage(image)
 			
 			starfield = il.image();*/
+			
+			mmiPlayer = PlayN.assets().getImage("images/mmi_player.png");
 			
 			starfield = PlayN.graphics().createImage(2000, 2000);
 			
@@ -391,5 +403,19 @@ public abstract class Ship extends Actor implements Listener, playn.core.Keyboar
 	void takeDamage(float amount) {
 		hp -= amount;
 		super.takeDamage(amount);
+	}
+	@Override
+	void renderToMinimap(Vec2 upperLeft, Surface target) {
+		Image img = null;
+		
+		if(SpaceImperatorGame.s.pc == this)
+		{
+			img = mmiPlayer;
+		}
+		
+		if(img != null)
+			target.drawImage(img, upperLeft.x + body.getPosition().x / SpaceImperatorGame.WORLD_WIDTH * 234 - 12.5f, upperLeft.y + body.getPosition().y / SpaceImperatorGame.WORLD_HEIGHT * 234 - 12.5f, 25, 25);
+		
+		super.renderToMinimap(upperLeft, target);
 	}
 }

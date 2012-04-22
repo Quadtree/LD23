@@ -23,6 +23,9 @@ public class SpaceImperatorGame implements Game, Renderer, ContactListener {
 	public final static int WINDOW_WIDTH = 1024;
 	public final static int WINDOW_HEIGHT = 768;
 	
+	public final static int WORLD_WIDTH = 600;
+	public final static int WORLD_HEIGHT = 600;
+	
 	public static SpaceImperatorGame s;
 	
 	public World world;
@@ -32,6 +35,8 @@ public class SpaceImperatorGame implements Game, Renderer, ContactListener {
 	ArrayList<Actor> actors = new ArrayList<Actor>();
 	
 	Random rand = new Random();
+	
+	Image minimap;
 	
 	@Override
 	public void init() {
@@ -44,11 +49,16 @@ public class SpaceImperatorGame implements Game, Renderer, ContactListener {
 		
 		actors.add(new Planet(new Vec2(), Planet.PlanetSize.Tiny, true));
 		
-		actors.add(new Planet(new Vec2(0, 40), Planet.PlanetSize.Tiny, false));
+		//actors.add(new Planet(new Vec2(0, 40), Planet.PlanetSize.Tiny, false));
+		
+		for(int i=0;i<10;++i)
+			actors.add(new Planet());
 		
 		graphics().setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 		
 		actors.add(new Fighter(new Vec2(30,30)));
+		
+		minimap = assets().getImage("images/minimap.png");
 	}
 
 	@Override
@@ -96,6 +106,14 @@ public class SpaceImperatorGame implements Game, Renderer, ContactListener {
 		pc.cameraTrack(surface);
 		
 		for(Actor a : actors) a.render(surface);
+		
+		surface.setTransform(1, 0, 0, 1, 0, 0);
+		
+		Vec2 minimapUL = new Vec2(748, 48);
+		
+		surface.drawImage(minimap, minimapUL.x - 8, minimapUL.y - 8);
+		
+		for(Actor a : actors) a.renderToMinimap(minimapUL, surface);
 	}
 
 	@Override
