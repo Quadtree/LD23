@@ -15,17 +15,28 @@ public abstract class Gun {
 	
 	protected Vec2 getWorldPosition(Ship on)
 	{
-		Vec2 pos = on.body.getPosition();
+		Vec2 pos = new Vec2(on.body.getPosition());
+		
+		/*float mat11 = (float)Math.cos(on.body.getAngle());
+		float mat12 = (float)Math.sin(on.body.getAngle());
+		float mat21 = -(float)Math.sin(on.body.getAngle());
+		float mat22 = (float)Math.cos(on.body.getAngle());*/
 		
 		float mat11 = (float)Math.cos(on.body.getAngle());
 		float mat12 = (float)Math.sin(on.body.getAngle());
 		float mat21 = -(float)Math.sin(on.body.getAngle());
 		float mat22 = (float)Math.cos(on.body.getAngle());
 		
-		Vec2 temp = new Vec2(offset);
+		System.out.println("MATRIX");
+		System.out.println(mat11 + "\t" + mat21);
+		System.out.println(mat12 + "\t" + mat22);
 		
-		temp.x = (temp.x * mat11) + (temp.y * mat21);
-		temp.y = (temp.x * mat12) + (temp.y * mat22);
+		Vec2 temp = new Vec2();
+		
+		temp.x = (offset.x * mat11) + (offset.y * mat21);
+		temp.y = (offset.x * mat12) + (offset.y * mat22);
+		
+		System.out.println(temp);
 		
 		pos.addLocal(temp);
 		
