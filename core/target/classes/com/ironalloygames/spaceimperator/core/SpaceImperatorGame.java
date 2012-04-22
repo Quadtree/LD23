@@ -34,9 +34,9 @@ public class SpaceImperatorGame implements Game, Renderer {
 		
 		world = new World(new Vec2(), false);
 		
-		actors.add(new Planet());
+		actors.add(new Planet(new Vec2(), Planet.PlanetSize.Tiny));
 		
-		actors.add(new Fighter(new Vec2(50,50)));
+		actors.add(new Fighter(new Vec2(5,5)));
 	}
 
 	@Override

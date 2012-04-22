@@ -29,7 +29,7 @@ public abstract class Ship extends Actor {
 	{
 		PolygonShape ps = new PolygonShape();
 		
-		ps.setAsBox(getGraphic().width() / 2, getGraphic().height() / 2);
+		ps.setAsBox(getGraphic().width() / 2 / 16, getGraphic().height() / 2 / 16);
 		
 		BodyDef bd = new BodyDef();
 		
@@ -54,7 +54,10 @@ public abstract class Ship extends Actor {
 		target.save();
 		target.translate(body.getPosition().x, body.getPosition().y);
 		target.rotate(body.getAngle() + 1.5f);
-		target.drawImageCentered(getGraphic(), 0, 0);
+		
+		Image graphic = getGraphic();
+		
+		target.drawImage(graphic, -graphic.width() / 2 / 16, -graphic.height() / 2 / 16, graphic.width() / 16, graphic.height() / 16);
 		target.restore();
 		super.render(target);
 	}
