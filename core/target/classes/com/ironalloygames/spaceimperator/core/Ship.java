@@ -25,6 +25,8 @@ import playn.core.Surface;
 
 public abstract class Ship extends Actor implements Listener, playn.core.Keyboard.Listener {
 	
+	final static float MISSILE_COST = 10;
+	
 	static Image aimCircle;
 	static Image aimPoint;
 	
@@ -49,6 +51,8 @@ public abstract class Ship extends Actor implements Listener, playn.core.Keyboar
 	Vec2 firePoint = new Vec2();
 	
 	Vec2 mousePos;
+	
+	int missileCooldown;
 	
 	int turn;
 	int thrust;
@@ -162,6 +166,36 @@ public abstract class Ship extends Actor implements Listener, playn.core.Keyboar
 			body.getLinearVelocity().mulLocal(SPEED_LIMIT);
 		}
 		
+		if(fireMissiles && missileCooldown <= 0 && (this != SpaceImperatorGame.s.pc || SpaceImperatorGame.s.credits >= MISSILE_COST))
+		{
+			float bestDist = Float.MAX_VALUE;
+			Ship target = null;
+			
+			for(Actor a : SpaceImperatorGame.s.actors)
+			{
+				if(a instanceof Ship && a != this)
+				{
+					float dist = a.body.getPosition().sub(aim).lengthSquared();
+					
+					if(dist < bestDist)
+					{
+						bestDist = dist;
+						target = (Ship)a;
+					}
+				}
+			}
+			
+			if(target != null)
+			{
+				SpaceImperatorGame.s.actors.add(new Missile(body.getPosition(), target, body.getLinearVelocity(), colGroup));
+				missileCooldown = 60;
+				
+				if(this == SpaceImperatorGame.s.pc) SpaceImperatorGame.s.credits -= MISSILE_COST;
+			}
+		}
+		
+		missileCooldown--;
+		
 		super.update();
 	}
 	
@@ -241,7 +275,7 @@ public abstract class Ship extends Actor implements Listener, playn.core.Keyboar
 				strafe = 1;
 				thrust = 0;
 				fireBolts = true;
-				fireMissiles = true;
+				//fireMissiles = true;
 			} else if(range < 100)
 			{
 				thrust = 1;

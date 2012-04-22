@@ -237,7 +237,11 @@ public class Planet extends Actor {
 				
 				if(target != null && pos.sub(target.body.getPosition()).length() < 150)
 				{
-					SpaceImperatorGame.s.actors.add(new Bolt(pos, target.body.getPosition().add(new Vec2(SpaceImperatorGame.s.rand.nextFloat() * 6 - 3, SpaceImperatorGame.s.rand.nextFloat() * 6 - 3)), new Vec2(), colGroup, 120));
+					if(SpaceImperatorGame.s.rand.nextInt(60) != 0)
+						SpaceImperatorGame.s.actors.add(new Bolt(pos, target.body.getPosition().add(new Vec2(SpaceImperatorGame.s.rand.nextFloat() * 6 - 3, SpaceImperatorGame.s.rand.nextFloat() * 6 - 3)), new Vec2(), colGroup, 120));
+					else
+						SpaceImperatorGame.s.actors.add(new Missile(pos, target, new Vec2(), colGroup));
+					
 					defCooldown -= 15;
 					nextDefense++;
 					
