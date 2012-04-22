@@ -61,4 +61,9 @@ public class Fighter extends Ship {
 		return new Vec2(25.f / 16.f, 25.f / 16.f);
 	}
 
+	@Override
+	public float getMaxHP() {
+		return 7;
+	}
+
 }

@@ -20,11 +20,9 @@ public class BoltCannon extends Gun {
 	public void fire(Ship firer) {
 		if(recharge <= 0)
 		{
-			recharge = 20;
+			recharge = 10;
 			
-			SpaceImperatorGame.s.actors.add(new Bolt(getWorldPosition(firer), firer.firePoint, firer.body.getLinearVelocity(), firer.colGroup));
-			
-			System.out.println("FIRE!!!");
+			SpaceImperatorGame.s.actors.add(new Bolt(getWorldPosition(firer), firer.firePoint, firer.body.getLinearVelocity(), firer.colGroup, 60));
 		}
 		
 		super.fire(firer);

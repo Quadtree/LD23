@@ -11,26 +11,30 @@ import playn.core.Image;
 import playn.core.PlayN;
 import playn.core.Surface;
 
-public class Bolt extends Actor {
+public class DropPod extends Actor {
 	
 	static Image graphic;
 	
 	int life;
 	
-	public Bolt(Vec2 source, Vec2 target, Vec2 velocityBase, short colGroup, int life)
+	boolean playerOwned;
+	
+	public DropPod(Vec2 source, Vec2 target, Vec2 velocityBase, short colGroup, int life, boolean playerOwned)
 	{
+		this.playerOwned = playerOwned;
 		this.life = life;
 		this.colGroup = colGroup;
 		System.out.println(colGroup);
 		CircleShape cs = new CircleShape();
 		
-		cs.m_radius = 0.3f;
+		cs.m_radius = 1.f;
 		
 		BodyDef bd = new BodyDef();
 		
 		bd.position.set(source);
 		bd.type = BodyType.DYNAMIC;
 		bd.userData = this;
+		bd.angle = (float)Math.atan2(target.sub(source).y, target.sub(source).x);
 		
 		body = SpaceImperatorGame.s.world.createBody(bd);
 		
@@ -46,17 +50,18 @@ public class Bolt extends Actor {
 		Vec2 vel = target.sub(source);
 		vel.normalize();
 		
-		body.setLinearVelocity(vel.mulLocal(400).add(velocityBase));
+		body.setLinearVelocity(vel.mulLocal(40).add(velocityBase));
 	}
 
 	@Override
 	public void render(Surface target) {
-		if(graphic == null) graphic = PlayN.assets().getImage("images/bolt.png");
+		if(graphic == null) graphic = PlayN.assets().getImage("images/drop_pod.png");
 		
 		target.save();
 		
 		target.translate(body.getPosition().x, body.getPosition().y);
-		target.drawImage(graphic, -0.25f, -0.25f, 0.5f, 0.5f);
+		target.rotate(body.getAngle());
+		target.drawImage(graphic, -50 / 16.f / 2.f, -50 / 16.f / 2.f, 50 / 16.f, 50 / 16.f);
 		
 		target.restore();
 		super.render(target);
@@ -64,8 +69,11 @@ public class Bolt extends Actor {
 
 	@Override
 	void collidedWith(Actor other) {
-		other.takeDamage(1);
-		life = 0;
+		if(other instanceof Planet && ((Planet)other).ownedByPlayer != playerOwned)
+		{
+			((Planet)other).dropAttack(playerOwned);
+			life = 0;
+		}
 		super.collidedWith(other);
 	}
 

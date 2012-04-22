@@ -113,14 +113,30 @@ public abstract class Ship extends Actor implements Listener, playn.core.Keyboar
 		else if(lRight < lCenter && lRight < lLeft)
 			turn = 1;
 		else
+		{
 			turn = 0;
+			body.setTransform(body.getPosition(), (float)Math.atan2(aim.y - body.getPosition().y, aim.x - body.getPosition().x));
+		}
 		
 		body.setAngularVelocity(getTurnPower() * turn);
 		
 		if(thrust == 1)
 		{
-			body.applyLinearImpulse(new Vec2((float)Math.cos(body.getAngle()) * this.getThrustPower(), (float)Math.sin(body.getAngle()) * this.getThrustPower()), body.getPosition());
+			Vec2 velVec = new Vec2((float)Math.cos(body.getAngle()) * this.getThrustPower(), (float)Math.sin(body.getAngle()) * this.getThrustPower());
+			
+			
+			body.applyLinearImpulse(velVec, body.getPosition());
 			//System.out.println("FULL PO");
+		}
+		
+		if(thrust == -1)
+		{
+			Vec2 velVec = new Vec2(body.getLinearVelocity());
+			velVec.normalize();
+			
+			velVec.mulLocal(-getThrustPower());
+			
+			body.applyLinearImpulse(velVec, body.getPosition());
 		}
 		
 		body.applyLinearImpulse(new Vec2((float)Math.cos(body.getAngle() + Math.PI / 2) * this.getThrustPower() * strafe, (float)Math.sin(body.getAngle() + Math.PI / 2) * this.getThrustPower() * strafe), body.getPosition());
@@ -130,6 +146,10 @@ public abstract class Ship extends Actor implements Listener, playn.core.Keyboar
 			g.update();
 			if(g instanceof BoltCannon && fireBolts) g.fire(this);
 		}
+		
+		if(SpaceImperatorGame.s.pc != this) runAI();
+		
+		dropPodCooldown--;
 		
 		super.update();
 	}
@@ -174,6 +194,44 @@ public abstract class Ship extends Actor implements Listener, playn.core.Keyboar
 		
 		
 		super.render(target);
+	}
+	
+	int dropPodCooldown = 0;
+	
+	void launchDropPod()
+	{
+		if(dropPodCooldown <= 0)
+		{
+			SpaceImperatorGame.s.actors.add(new DropPod(body.getPosition(), aim, body.getLinearVelocity(), colGroup, 600, this == SpaceImperatorGame.s.pc));
+			dropPodCooldown = 60;
+		}
+	}
+	
+	public void runAI()
+	{
+		float range = SpaceImperatorGame.s.pc.body.getPosition().sub(body.getPosition()).length();
+		
+		aim = SpaceImperatorGame.s.pc.body.getPosition();
+		
+		thrust = -1;
+		strafe = 0;
+		fireBolts = false;
+		fireMissiles = false;
+		
+		if(turn == 0)
+		{
+			if(range < 20)
+			{
+				strafe = 1;
+				thrust = 0;
+				fireBolts = true;
+				fireMissiles = true;
+			} else if(range < 100)
+			{
+				thrust = 1;
+				strafe = 0;
+			}
+		}
 	}
 	
 	@Override
@@ -284,6 +342,8 @@ public abstract class Ship extends Actor implements Listener, playn.core.Keyboar
 		if(event.key() == Key.A) leftThrust = true;
 		if(event.key() == Key.D) rightThrust = true;
 		
+		if(event.key() == Key.G) launchDropPod();
+		
 		thrustCheck();
 	}
 	@Override
@@ -326,4 +386,10 @@ public abstract class Ship extends Actor implements Listener, playn.core.Keyboar
 	}
 	
 	abstract Vec2 getSize();
+	
+	@Override
+	void takeDamage(float amount) {
+		hp -= amount;
+		super.takeDamage(amount);
+	}
 }

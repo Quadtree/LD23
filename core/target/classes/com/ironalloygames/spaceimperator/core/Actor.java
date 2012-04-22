@@ -30,4 +30,7 @@ public abstract class Actor {
 			}
 		}
 	}
+	
+	void collidedWith(Actor other){}
+	void takeDamage(float amount){}
 }

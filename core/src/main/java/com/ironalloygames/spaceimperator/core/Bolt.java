@@ -15,8 +15,11 @@ public class Bolt extends Actor {
 	
 	static Image graphic;
 	
-	public Bolt(Vec2 source, Vec2 target, Vec2 velocityBase, short colGroup)
+	int life;
+	
+	public Bolt(Vec2 source, Vec2 target, Vec2 velocityBase, short colGroup, int life)
 	{
+		this.life = life;
 		this.colGroup = colGroup;
 		System.out.println(colGroup);
 		CircleShape cs = new CircleShape();
@@ -57,5 +60,30 @@ public class Bolt extends Actor {
 		
 		target.restore();
 		super.render(target);
+	}
+
+	@Override
+	void collidedWith(Actor other) {
+		other.takeDamage(1);
+		life = 0;
+		super.collidedWith(other);
+	}
+
+	@Override
+	public boolean keep() {
+		return life > 0;
+	}
+
+	@Override
+	public void destroyed() {
+		SpaceImperatorGame.s.world.destroyBody(body);
+		body = null;
+		super.destroyed();
+	}
+
+	@Override
+	public void update() {
+		life--;
+		super.update();
 	}
 }
