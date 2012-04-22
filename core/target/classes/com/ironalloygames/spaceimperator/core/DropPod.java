@@ -50,7 +50,7 @@ public class DropPod extends Actor {
 		Vec2 vel = target.sub(source);
 		vel.normalize();
 		
-		body.setLinearVelocity(vel.mulLocal(40).add(velocityBase));
+		body.setLinearVelocity(velocityBase);
 	}
 
 	@Override
@@ -60,8 +60,8 @@ public class DropPod extends Actor {
 		target.save();
 		
 		target.translate(body.getPosition().x, body.getPosition().y);
-		target.rotate(body.getAngle());
-		target.drawImage(graphic, -50 / 16.f / 2.f, -50 / 16.f / 2.f, 50 / 16.f, 50 / 16.f);
+		target.rotate(body.getAngle() + (float)Math.PI / 2);
+		target.drawImage(graphic, -25 / 16.f / 2.f, -25 / 16.f / 2.f, 25 / 16.f, 25 / 16.f);
 		
 		target.restore();
 		super.render(target);
