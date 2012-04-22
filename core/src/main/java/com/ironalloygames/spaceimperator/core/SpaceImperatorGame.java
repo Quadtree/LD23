@@ -48,11 +48,18 @@ public class SpaceImperatorGame implements Game, Renderer {
 
 	@Override
 	public void update(float delta) {
-		if(pc != null && !pc.keep()) pc = null;
+		if(pc != null && !pc.keep())
+		{
+			pc = null;
+			mouse().setListener(pc);
+			keyboard().setListener(pc);
+		}
 		if(pc == null)
 		{
 			pc = new Fighter(new Vec2(20,20));
 			actors.add(pc);
+			mouse().setListener(pc);
+			keyboard().setListener(pc);
 		}
 		
 		for(int i=0;i<actors.size();++i)
