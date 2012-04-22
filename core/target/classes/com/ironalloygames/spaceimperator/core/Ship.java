@@ -107,22 +107,27 @@ public abstract class Ship extends Actor implements Listener, playn.core.Keyboar
 			firePoint.addLocal(body.getPosition());
 		}
 		
-		Vec2 pLeft = body.getPosition().add(new Vec2((float)Math.cos(body.getAngle() - 0.1f), (float)Math.sin(body.getAngle() - 0.1f)));
-		Vec2 pCenter = body.getPosition().add(new Vec2((float)Math.cos(body.getAngle()), (float)Math.sin(body.getAngle())));
-		Vec2 pRight = body.getPosition().add(new Vec2((float)Math.cos(body.getAngle() + 0.1f), (float)Math.sin(body.getAngle() + 0.1f)));
-		
-		float lLeft = aim.sub(pLeft).lengthSquared();
-		float lCenter = aim.sub(pCenter).lengthSquared();
-		float lRight = aim.sub(pRight).lengthSquared();
-		
-		if(lLeft < lCenter && lLeft < lRight)
-			turn = -1;
-		else if(lRight < lCenter && lRight < lLeft)
-			turn = 1;
-		else
+		if(!hasTurrets())
 		{
-			turn = 0;
-			body.setTransform(body.getPosition(), (float)Math.atan2(aim.y - body.getPosition().y, aim.x - body.getPosition().x));
+			Vec2 pLeft = body.getPosition().add(new Vec2((float)Math.cos(body.getAngle() - 0.1f), (float)Math.sin(body.getAngle() - 0.1f)));
+			Vec2 pCenter = body.getPosition().add(new Vec2((float)Math.cos(body.getAngle()), (float)Math.sin(body.getAngle())));
+			Vec2 pRight = body.getPosition().add(new Vec2((float)Math.cos(body.getAngle() + 0.1f), (float)Math.sin(body.getAngle() + 0.1f)));
+			
+			float lLeft = aim.sub(pLeft).lengthSquared();
+			float lCenter = aim.sub(pCenter).lengthSquared();
+			float lRight = aim.sub(pRight).lengthSquared();
+			
+			if(lLeft < lCenter && lLeft < lRight)
+				turn = -1;
+			else if(lRight < lCenter && lRight < lLeft)
+				turn = 1;
+			else
+			{
+				turn = 0;
+				body.setTransform(body.getPosition(), (float)Math.atan2(aim.y - body.getPosition().y, aim.x - body.getPosition().x));
+			}
+		} else {
+			turn = strafe;
 		}
 		
 		body.setAngularVelocity(getTurnPower() * turn);
@@ -146,7 +151,8 @@ public abstract class Ship extends Actor implements Listener, playn.core.Keyboar
 			body.applyLinearImpulse(velVec, body.getPosition());
 		}
 		
-		body.applyLinearImpulse(new Vec2((float)Math.cos(body.getAngle() + Math.PI / 2) * this.getThrustPower() * strafe, (float)Math.sin(body.getAngle() + Math.PI / 2) * this.getThrustPower() * strafe), body.getPosition());
+		if(!hasTurrets())
+			body.applyLinearImpulse(new Vec2((float)Math.cos(body.getAngle() + Math.PI / 2) * this.getThrustPower() * strafe, (float)Math.sin(body.getAngle() + Math.PI / 2) * this.getThrustPower() * strafe), body.getPosition());
 		
 		for(Gun g : guns)
 		{
@@ -210,8 +216,8 @@ public abstract class Ship extends Actor implements Listener, playn.core.Keyboar
 		target.drawImage(getGraphic(), -size.x / 2, -size.y / 2, size.x, size.y);
 		
 		if(thrust == 1) target.drawImage(getForwardThrustGraphic(), -size.x / 2, -size.y / 2, size.x, size.y);
-		if(strafe == -1) target.drawImage(getLeftThrustGraphic(), -size.x / 2, -size.y / 2, size.x, size.y);
-		if(strafe == 1) target.drawImage(getRightThrustGraphic(), -size.x / 2, -size.y / 2, size.x, size.y);
+		if(strafe == -1 && getLeftThrustGraphic() != null) target.drawImage(getLeftThrustGraphic(), -size.x / 2, -size.y / 2, size.x, size.y);
+		if(strafe == 1 && getRightThrustGraphic() != null) target.drawImage(getRightThrustGraphic(), -size.x / 2, -size.y / 2, size.x, size.y);
 		
 		target.restore();
 		

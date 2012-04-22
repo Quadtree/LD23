@@ -98,7 +98,7 @@ public class SpaceImperatorGame implements Game, Renderer, ContactListener {
 		}
 		if(pc == null)
 		{
-			pc = new Fighter(new Vec2(20,20));
+			pc = new Battleship(new Vec2(20,20));
 			actors.add(pc);
 			mouse().setListener(pc);
 			keyboard().setListener(pc);
