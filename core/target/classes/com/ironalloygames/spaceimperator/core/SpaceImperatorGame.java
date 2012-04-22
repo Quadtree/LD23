@@ -155,10 +155,7 @@ public class SpaceImperatorGame implements Game, Renderer, ContactListener {
 		
 		overlay.canvas().clear();
 		overlay.canvas().setFillColor(0xff00ff00);
-		overlay.canvas().fillCircle(60, 60, 20);
-		overlay.canvas().drawText("Test!", 20, 20);
-		
-		overlay.canvas().drawPoint(50, 50);
+		overlay.canvas().drawText("Credits: " + (int)credits, 20, 740);
 		
 		surface.drawImage(overlay, 0, 0);
 	}

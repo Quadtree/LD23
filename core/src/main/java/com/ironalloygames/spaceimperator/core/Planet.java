@@ -255,6 +255,8 @@ public class Planet extends Actor {
 		
 		defenses += population / 2 / 60;
 		
+		if(ownedByPlayer) SpaceImperatorGame.s.credits += population / 3 / 60;
+		
 		if(population > getPopCap()) population = getPopCap();
 		if(defenses > population / 2) defenses = population / 2;
 		

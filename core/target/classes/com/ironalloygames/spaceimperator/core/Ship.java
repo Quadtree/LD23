@@ -363,7 +363,13 @@ public abstract class Ship extends Actor implements Listener, playn.core.Keyboar
 		if(event.key() == Key.A) leftThrust = true;
 		if(event.key() == Key.D) rightThrust = true;
 		
-		if(event.key() == Key.G) launchDropPod();
+		final float DROP_POD_COST = 25;
+		
+		if(event.key() == Key.G && SpaceImperatorGame.s.credits >= DROP_POD_COST)
+		{
+			SpaceImperatorGame.s.credits -= DROP_POD_COST;
+			launchDropPod();
+		}
 		
 		thrustCheck();
 	}
