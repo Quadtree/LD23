@@ -201,7 +201,7 @@ public class Planet extends Actor {
 	public void update() {
 		Random defPosRand = new Random((int)body.getPosition().x + 3000);
 		
-		if(defCooldown <= 0)
+		if(defCooldown > 0)
 		{
 			for(int i=0;i<(int)defenses;++i)
 			{
@@ -238,16 +238,25 @@ public class Planet extends Actor {
 				if(target != null && pos.sub(target.body.getPosition()).length() < 150)
 				{
 					SpaceImperatorGame.s.actors.add(new Bolt(pos, target.body.getPosition().add(new Vec2(SpaceImperatorGame.s.rand.nextFloat() * 6 - 3, SpaceImperatorGame.s.rand.nextFloat() * 6 - 3)), new Vec2(), colGroup, 120));
-					defCooldown = (int)(15 / defenses);
+					defCooldown -= 15;
 					nextDefense++;
-					break;
+					
+					if(defCooldown <= 0)
+						break;
 				}
 			}
 		} else {
-			defCooldown--;
+			defCooldown += defenses;
 		}
 		
 		nextDefense = nextDefense % Math.max((int)defenses, 1);
+		
+		population *= 1.00019;
+		
+		defenses += population / 2 / 60;
+		
+		if(population > getPopCap()) population = getPopCap();
+		if(defenses > population / 2) defenses = population / 2;
 		
 		super.update();
 	}
