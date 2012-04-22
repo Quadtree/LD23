@@ -312,20 +312,10 @@ public abstract class Ship extends Actor implements Listener, playn.core.Keyboar
 	
 	static CanvasImage starfield;
 	
-	public void cameraTrack(Surface target)
+	public void drawStarfield(Surface target)
 	{
-		//target.setTransform(1, 0, 0, 1, 0, 0);
-		
 		if(starfield == null)
 		{
-			/*ImageLayer il = PlayN.graphics().createImageLayer();
-			
-			il.setWidth(2000);
-			il.setHeight(2000);
-			il.setDepth(32);
-			il.setImage(image)
-			
-			starfield = il.image();*/
 			
 			mmiPlayer = PlayN.assets().getImage("images/mmi_player.png");
 			mmiShip = PlayN.assets().getImage("images/mmi_ship.png");
@@ -355,7 +345,10 @@ public abstract class Ship extends Actor implements Listener, playn.core.Keyboar
 		target.drawImage(starfield, -600, -600);
 		
 		target.restore();
-		
+	}
+	
+	public void cameraTrack(Surface target)
+	{
 		target.translate(SpaceImperatorGame.WINDOW_WIDTH / 2, SpaceImperatorGame.WINDOW_HEIGHT / 2);
 		
 		target.scale(16, 16);

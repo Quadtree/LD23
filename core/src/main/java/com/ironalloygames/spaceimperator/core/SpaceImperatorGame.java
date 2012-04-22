@@ -28,6 +28,8 @@ public class SpaceImperatorGame implements Game, Renderer, ContactListener {
 	public final static int WORLD_WIDTH = 600;
 	public final static int WORLD_HEIGHT = 600;
 	
+	Image dust;
+	
 	public static SpaceImperatorGame s;
 	
 	public World world;
@@ -46,6 +48,8 @@ public class SpaceImperatorGame implements Game, Renderer, ContactListener {
 	CanvasImage overlay;
 	
 	float credits;
+	
+	Vec2[] dustPos;
 	
 	@Override
 	public void init() {
@@ -82,6 +86,13 @@ public class SpaceImperatorGame implements Game, Renderer, ContactListener {
 		
 		healthFull = assets().getImage("images/health_full.png");
 		healthDepleted = assets().getImage("images/health_depleted.png");
+		
+		dust = assets().getImage("images/dust.png");
+		
+		dustPos = new Vec2[20];
+		
+		for(int i=0;i<dustPos.length;++i)
+			dustPos[i] = new Vec2(rand.nextFloat() * WINDOW_WIDTH, rand.nextFloat() * WINDOW_HEIGHT);
 	}
 
 	@Override
@@ -126,6 +137,41 @@ public class SpaceImperatorGame implements Game, Renderer, ContactListener {
 
 	@Override
 	public void render(Surface surface) {
+		
+		pc.drawStarfield(surface);
+		
+		float dustFacing = (float)Math.atan2(pc.body.getLinearVelocity().y, pc.body.getLinearVelocity().x);
+		float dustLength = pc.body.getLinearVelocity().length() / 4;
+		
+		for(Vec2 v2 : dustPos)
+		{
+			v2.addLocal(pc.body.getLinearVelocity().mul(-0.016f));
+			
+			if(v2.x > WINDOW_WIDTH + 50 ||
+			   v2.y > WINDOW_HEIGHT + 50 ||
+			   v2.x < -50 ||
+			   v2.y < -50)
+			{
+				if(rand.nextBoolean())
+				{
+					v2.x = rand.nextBoolean() ? -50 : WINDOW_WIDTH + 50;
+					v2.y = rand.nextFloat() * WINDOW_HEIGHT;
+				} else {
+					v2.y = rand.nextBoolean() ? -50 : WINDOW_HEIGHT + 50;
+					v2.x = rand.nextFloat() * WINDOW_WIDTH;
+				}
+			}
+			
+			surface.save();
+			
+			surface.translate(v2.x, v2.y);
+			surface.rotate(dustFacing);
+			
+			surface.drawImage(dust, -dustLength / 2, -3 / 2, dustLength, 3);
+			
+			surface.restore();
+		}
+		
 		pc.cameraTrack(surface);
 		
 		for(Actor a : actors) a.render(surface);
