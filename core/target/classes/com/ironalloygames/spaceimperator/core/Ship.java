@@ -200,6 +200,25 @@ public abstract class Ship extends Actor implements Listener, playn.core.Keyboar
 			}
 		}
 		
+		if(this == SpaceImperatorGame.s.pc)
+		{
+			
+			boolean nearAlliedPlanet = false;
+		
+			for(Actor a : SpaceImperatorGame.s.actors)
+			{
+				if(a instanceof Planet && ((Planet)a).ownedByPlayer && a.body.getPosition().sub(body.getPosition()).length() < ((Planet)a).getRadius() + 10) nearAlliedPlanet = true;
+			}
+			
+			if(upgradesTo() != null)
+			{
+				String text;
+				float cost;
+				
+				
+			}
+		}
+		
 		missileCooldown--;
 		
 		super.update();
@@ -468,4 +487,9 @@ public abstract class Ship extends Actor implements Listener, playn.core.Keyboar
 		
 		super.renderToMinimap(upperLeft, target);
 	}
+	
+	public boolean canUpgrade(){ return false; }
+	public void upgrade(){}
+	public String getUpgradeText(){ return ""; }
+	public float getUpgradeCost(){ return 0; }
 }

@@ -209,6 +209,8 @@ public class SpaceImperatorGame implements Game, Renderer, ContactListener {
 		overlay.canvas().setFillColor(0xff00ff00);
 		overlay.canvas().drawText("Credits: " + (int)credits, 20, 740);
 		
+		overlay.canvas().drawText("A\nB\nC", 20, 600);
+		
 		surface.drawImage(overlay, 0, 0);
 	}
 

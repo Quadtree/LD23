@@ -80,4 +80,15 @@ public class Cruiser extends Ship {
 		return true;
 	}
 
+	public static String getUpgradeText()
+	{
+		return  "The cruiser has all the firepower of the frigate,\n" +
+				"plus four point defense beams, giving it excellent\n" +
+				"protection. It is however slow and ungainly.";
+	}
+	
+	public static float getUpgradeCost()
+	{
+		return 2000;
+	}
 }

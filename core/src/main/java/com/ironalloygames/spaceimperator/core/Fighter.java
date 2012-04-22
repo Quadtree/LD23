@@ -68,5 +68,11 @@ public class Fighter extends Ship {
 	public float getMaxHP() {
 		return 7;
 	}
+	
+	@Override
+	public Class<? extends Ship> upgradesTo()
+	{
+		return HeavyFighter.class;
+	}
 
 }

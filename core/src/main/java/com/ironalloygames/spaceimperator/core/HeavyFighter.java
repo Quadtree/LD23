@@ -70,4 +70,22 @@ public class HeavyFighter extends Ship {
 		return 15;
 	}
 
+	@Override
+	public Class<? extends Ship> upgradesTo()
+	{
+		return Frigate.class;
+	}
+	
+	public static String getUpgradeText()
+	{
+		return  "The heavier cousin to the light fighter,\n" +
+				"the heavy fighter features double the firepower\n" +
+				"and increased armor. It does trade some agility\n" +
+				"for this however.";
+	}
+	
+	public static float getUpgradeCost()
+	{
+		return 200;
+	}
 }
