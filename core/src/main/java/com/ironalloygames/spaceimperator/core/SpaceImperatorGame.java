@@ -47,7 +47,7 @@ public class SpaceImperatorGame implements Game, Renderer, ContactListener {
 	
 	CanvasImage overlay;
 	
-	float credits = 0;
+	float credits = 20000;
 	
 	Vec2[] dustPos;
 	

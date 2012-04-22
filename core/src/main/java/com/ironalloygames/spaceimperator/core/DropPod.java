@@ -71,6 +71,7 @@ public class DropPod extends Actor {
 	void collidedWith(Actor other) {
 		if(other instanceof Planet && ((Planet)other).ownedByPlayer != playerOwned)
 		{
+			PlayN.assets().getSound("sfx/pod_hit").play();
 			((Planet)other).dropAttack(playerOwned);
 			life = 0;
 		}

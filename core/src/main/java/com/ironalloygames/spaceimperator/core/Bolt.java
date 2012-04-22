@@ -9,6 +9,7 @@ import org.jbox2d.dynamics.FixtureDef;
 
 import playn.core.Image;
 import playn.core.PlayN;
+import playn.core.Sound;
 import playn.core.Surface;
 
 public class Bolt extends Actor {
@@ -44,6 +45,8 @@ public class Bolt extends Actor {
 		vel.normalize();
 		
 		body.setLinearVelocity(vel.mulLocal(400).add(velocityBase));
+		
+		PlayN.assets().getSound("sfx/bolt").play();
 	}
 
 	@Override
@@ -63,6 +66,9 @@ public class Bolt extends Actor {
 	void collidedWith(Actor other) {
 		other.takeDamage(1);
 		life = 0;
+		
+		PlayN.assets().getSound("sfx/bolt_hit").play();
+		
 		super.collidedWith(other);
 	}
 

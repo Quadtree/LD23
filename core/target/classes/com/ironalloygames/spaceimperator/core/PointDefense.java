@@ -2,6 +2,8 @@ package com.ironalloygames.spaceimperator.core;
 
 import org.jbox2d.common.Vec2;
 
+import playn.core.PlayN;
+
 public class PointDefense extends Gun {
 
 	Ship owner;
@@ -43,6 +45,7 @@ public class PointDefense extends Gun {
 			
 			if(target != null)
 			{
+				PlayN.assets().getSound("sfx/point_defense").play();
 				SpaceImperatorGame.s.actors.add(new Beam(pos, target.body.getPosition()));
 				target.takeDamage(1);
 				cooldown = 25;

@@ -27,6 +27,8 @@ public abstract class Ship extends Actor implements Listener, playn.core.Keyboar
 	
 	final static float MISSILE_COST = 10;
 	
+	final static float REPAIR_COST = 10;
+	
 	static Image aimCircle;
 	static Image aimPoint;
 	
@@ -204,6 +206,8 @@ public abstract class Ship extends Actor implements Listener, playn.core.Keyboar
 		
 		SpaceImperatorGame.s.upgradeText = "";
 		
+		float repairRate = getMaxHP() / 60 / 120;
+		
 		if(this == SpaceImperatorGame.s.pc)
 		{
 			
@@ -220,7 +224,18 @@ public abstract class Ship extends Actor implements Listener, playn.core.Keyboar
 				{
 					SpaceImperatorGame.s.upgradeText = "Upgrade Available!\n" + getUpgradeText() + "\nUpgrade Cost: " + (int)getUpgradeCost() + " Credits";
 				}
+				
+				repairRate *= 16;
 			}
+		}
+		
+		repairRate = Math.min(repairRate, getMaxHP() - hp);
+		
+		if(SpaceImperatorGame.s.credits >= repairRate * REPAIR_COST)
+		{
+			hp += repairRate;
+			
+			SpaceImperatorGame.s.credits -= repairRate * REPAIR_COST;
 		}
 		
 		missileCooldown--;
@@ -326,7 +341,10 @@ public abstract class Ship extends Actor implements Listener, playn.core.Keyboar
 	@Override
 	public void destroyed() {
 		if(!replaced)
+		{
 			SpaceImperatorGame.s.actors.add(new Explosion(body.getPosition(), getSize().x * 4));
+			PlayN.assets().getSound("sfx/ship_die").play();
+		}
 		
 		SpaceImperatorGame.s.world.destroyBody(body);
 		body = null;
@@ -430,6 +448,7 @@ public abstract class Ship extends Actor implements Listener, playn.core.Keyboar
 		
 		if(event.key() == Key.U && SpaceImperatorGame.s.upgradeText.length() > 0)
 		{
+			PlayN.assets().getSound("sfx/upgrade_ship").play();
 			SpaceImperatorGame.s.credits -= getUpgradeCost();
 			upgrade();
 		}
