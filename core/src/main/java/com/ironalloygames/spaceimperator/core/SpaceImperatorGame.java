@@ -98,7 +98,7 @@ public class SpaceImperatorGame implements Game, Renderer, ContactListener {
 		}
 		if(pc == null)
 		{
-			pc = new Battleship(new Vec2(20,20));
+			pc = new Cruiser(new Vec2(20,20));
 			actors.add(pc);
 			mouse().setListener(pc);
 			keyboard().setListener(pc);
@@ -138,10 +138,12 @@ public class SpaceImperatorGame implements Game, Renderer, ContactListener {
 		
 		for(Actor a : actors) a.renderToMinimap(minimapUL, surface);
 		
+		float tileSize = pc.getMaxHP() > 50 ? 8 : 20;
+		
 		for(int i=0;i<pc.getMaxHP();++i)
 		{
-			int x = i % 25;
-			int y = i / 25;
+			int x = i % (int)(500 / tileSize);
+			int y = i / (int)(500 / tileSize);
 			
 			Image img = null;
 			
@@ -150,7 +152,7 @@ public class SpaceImperatorGame implements Game, Renderer, ContactListener {
 			else
 				img = healthFull;
 			
-			surface.drawImage(img, x * 20 + 20, y * 20 + 20);
+			surface.drawImage(img, x * tileSize + 20, y * tileSize + 20, tileSize, tileSize);
 		}
 		
 		overlay.canvas().clear();

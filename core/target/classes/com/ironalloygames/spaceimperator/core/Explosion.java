@@ -37,4 +37,9 @@ public class Explosion extends Actor{
 		target.restore();
 		super.render(target);
 	}
+
+	@Override
+	public boolean keep() {
+		return size > 0.01f;
+	}
 }

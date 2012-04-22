@@ -34,8 +34,6 @@ public class Bolt extends Actor {
 		
 		body = SpaceImperatorGame.s.world.createBody(bd);
 		
-		claimColGroup();
-		
 		FixtureDef fd = new FixtureDef();
 		fd.shape = cs;
 		fd.density = 1;

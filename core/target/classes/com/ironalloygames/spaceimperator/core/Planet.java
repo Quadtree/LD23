@@ -257,12 +257,12 @@ public class Planet extends Actor {
 		
 		population *= 1.00019;
 		
-		defenses += population / 2 / 60;
+		defenses += population / 2 / 60 / 40;
 		
 		if(ownedByPlayer) SpaceImperatorGame.s.credits += population / 3 / 60;
 		
 		if(population > getPopCap()) population = getPopCap();
-		if(defenses > population / 2) defenses = population / 2;
+		if(defenses > Math.max(population / 2, 1)) defenses = Math.max(population / 2, 1);
 		
 		super.update();
 	}
