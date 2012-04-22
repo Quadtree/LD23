@@ -47,19 +47,24 @@ public class Planet extends Actor {
 	
 	public Planet(PlanetSize type)
 	{
-		//int size = 0;
-		
-		//while(SpaceImperatorGame.s.rand.nextInt(3) == 0) size++;
-		
-		//if(size >= PlanetSize.values().length) size = PlanetSize.values().length - 1;
-		
 		init(new Vec2(SpaceImperatorGame.s.rand.nextFloat() * SpaceImperatorGame.WORLD_WIDTH, SpaceImperatorGame.s.rand.nextFloat() * SpaceImperatorGame.WORLD_HEIGHT), type);
 	}
 	
 	public Planet(Vec2 pos, PlanetSize type, boolean ownedByPlayer)
 	{
-		init(pos,type);
 		this.ownedByPlayer = ownedByPlayer;
+		init(pos,type);
+	}
+	
+	void spawnShip()
+	{
+		switch(type)
+		{
+			case Tiny: SpaceImperatorGame.s.actors.add(new Fighter(body.getPosition())); break;
+			case Small: SpaceImperatorGame.s.actors.add(new HeavyFighter(body.getPosition())); break;
+			case Medium: SpaceImperatorGame.s.actors.add(new Frigate(body.getPosition())); break;
+			case Large: SpaceImperatorGame.s.actors.add(new Battleship(body.getPosition())); break;
+		}
 	}
 	
 	float getPopCap()
@@ -114,6 +119,8 @@ public class Planet extends Actor {
 		
 		population = getPopCap();
 		defenses = population / 2;
+		
+		if(!ownedByPlayer) spawnShip();
 	}
 
 	@Override

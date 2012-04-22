@@ -66,21 +66,24 @@ public class SpaceImperatorGame implements Game, Renderer, ContactListener {
 		
 		//actors.add(new Planet(new Vec2(0, 40), Planet.PlanetSize.Tiny, false));
 		
-		for(int i=0;i<4;++i)
-			actors.add(new Planet(Planet.PlanetSize.Tiny));
+		actors.add(new Planet(new Vec2(550, 050), Planet.PlanetSize.Tiny, false));
+		actors.add(new Planet(new Vec2(050, 550), Planet.PlanetSize.Tiny, false));
+		actors.add(new Planet(new Vec2(350, 050), Planet.PlanetSize.Tiny, false));
+		actors.add(new Planet(new Vec2(050, 350), Planet.PlanetSize.Tiny, false));
+		actors.add(new Planet(new Vec2(250, 250), Planet.PlanetSize.Tiny, false));
 		
-		for(int i=0;i<3;++i)
-			actors.add(new Planet(Planet.PlanetSize.Small));
+		actors.add(new Planet(new Vec2(550, 250), Planet.PlanetSize.Small, false));
+		actors.add(new Planet(new Vec2(350, 350), Planet.PlanetSize.Small, false));
+		actors.add(new Planet(new Vec2(250, 550), Planet.PlanetSize.Small, false));
 		
-		for(int i=0;i<2;++i)
-			actors.add(new Planet(Planet.PlanetSize.Medium));
+		actors.add(new Planet(new Vec2(420, 550), Planet.PlanetSize.Medium, false));
+		actors.add(new Planet(new Vec2(550, 420), Planet.PlanetSize.Medium, false));
 		
-		for(int i=0;i<1;++i)
-			actors.add(new Planet(Planet.PlanetSize.Large));
+		actors.add(new Planet(new Vec2(550, 550), Planet.PlanetSize.Large, false));
 		
 		graphics().setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 		
-		actors.add(new Fighter(new Vec2(30,30)));
+		//actors.add(new Fighter(new Vec2(30,30)));
 		
 		minimap = assets().getImage("images/minimap.png");
 		
@@ -110,7 +113,7 @@ public class SpaceImperatorGame implements Game, Renderer, ContactListener {
 		if(pc == null)
 		{
 			credits *= 0.6f;
-			pc = new HeavyFighter(new Vec2(20,20));
+			pc = new Fighter(new Vec2(20,20));
 			actors.add(pc);
 			mouse().setListener(pc);
 			keyboard().setListener(pc);
