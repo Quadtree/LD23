@@ -11,7 +11,8 @@ public class Fighter extends Ship {
 
 	public Fighter(Vec2 pos) {
 		super(pos);
-		// TODO Auto-generated constructor stub
+		
+		guns.add(new BoltCannon(new Vec2(1,0)));
 	}
 	
 	void graphicCheck(){

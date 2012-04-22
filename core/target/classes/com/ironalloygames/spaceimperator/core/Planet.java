@@ -27,7 +27,6 @@ public class Planet extends Actor {
 	
 	static EnumMap<PlanetSize, Image> planetGraphics;
 	
-	Body body;
 	PlanetSize type;
 	
 	public Planet()

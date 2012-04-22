@@ -1,5 +1,7 @@
 package com.ironalloygames.spaceimperator.core;
 
+import java.util.ArrayList;
+
 import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
@@ -11,6 +13,7 @@ import playn.core.CanvasImage;
 import playn.core.Image;
 import playn.core.ImageLayer;
 import playn.core.Key;
+import playn.core.Mouse;
 import playn.core.PlayN;
 import playn.core.Keyboard.Event;
 import playn.core.Keyboard.TypedEvent;
@@ -37,8 +40,6 @@ public abstract class Ship extends Actor implements Listener, playn.core.Keyboar
 	
 	public boolean hasTurrets(){ return false; }
 	
-	Body body;
-	
 	float hp;
 	
 	Vec2 aim = new Vec2();
@@ -50,7 +51,10 @@ public abstract class Ship extends Actor implements Listener, playn.core.Keyboar
 	int thrust;
 	int strafe;
 	
+	boolean fireBolts;
+	boolean fireMissiles;
 	
+	ArrayList<Gun> guns = new ArrayList<Gun>();
 	
 	public Ship(Vec2 pos)
 	{
@@ -120,6 +124,12 @@ public abstract class Ship extends Actor implements Listener, playn.core.Keyboar
 		}
 		
 		body.applyLinearImpulse(new Vec2((float)Math.cos(body.getAngle() + Math.PI / 2) * this.getThrustPower() * strafe, (float)Math.sin(body.getAngle() + Math.PI / 2) * this.getThrustPower() * strafe), body.getPosition());
+		
+		for(Gun g : guns)
+		{
+			g.update();
+			if(g instanceof BoltCannon && fireBolts) g.fire(this);
+		}
 		
 		super.update();
 	}
@@ -295,13 +305,15 @@ public abstract class Ship extends Actor implements Listener, playn.core.Keyboar
 	}
 	@Override
 	public void onMouseDown(ButtonEvent event) {
-		System.out.println(screenToReal(new Vec2(event.x(), event.y())));
+		//System.out.println(screenToReal(new Vec2(event.x(), event.y())));
 		
+		if(event.button() == Mouse.BUTTON_LEFT) fireBolts = true;
+		if(event.button() == Mouse.BUTTON_RIGHT) fireMissiles = true;
 	}
 	@Override
 	public void onMouseUp(ButtonEvent event) {
-		// TODO Auto-generated method stub
-		
+		if(event.button() == Mouse.BUTTON_LEFT) fireBolts = false;
+		if(event.button() == Mouse.BUTTON_RIGHT) fireMissiles = false;
 	}
 	@Override
 	public void onMouseMove(MotionEvent event) {
