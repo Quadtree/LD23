@@ -63,6 +63,9 @@ public class SpaceImperatorGame implements Game, Renderer, ContactListener {
 	Image victoryImage;
 	Image defeatImage;
 	
+	boolean shotSoundThisFrame = false;
+	boolean hitSoundThisFrame = false;
+	
 	@Override
 	public void init() {
 		s = this;
@@ -95,7 +98,7 @@ public class SpaceImperatorGame implements Game, Renderer, ContactListener {
 		
 		graphics().setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 		
-		//actors.add(new Frigate(new Vec2(100,100)));
+		actors.add(new Battleship(new Vec2(100,100)));
 		
 		minimap = assets().getImage("images/minimap.png");
 		
@@ -121,7 +124,8 @@ public class SpaceImperatorGame implements Game, Renderer, ContactListener {
 
 	@Override
 	public void update(float delta) {
-		
+		shotSoundThisFrame = false;
+		hitSoundThisFrame = false;
 		
 		if(pc != null && !pc.keep())
 		{
@@ -132,7 +136,7 @@ public class SpaceImperatorGame implements Game, Renderer, ContactListener {
 		if(pc == null)
 		{
 			credits *= 0.6f;
-			pc = new Fighter(new Vec2(56,56));
+			pc = new Battleship(new Vec2(56,56));
 			actors.add(pc);
 			mouse().setListener(pc);
 			keyboard().setListener(pc);
@@ -200,6 +204,9 @@ public class SpaceImperatorGame implements Game, Renderer, ContactListener {
 			return;
 		}
 		
+		surface.setTransform(1, 0, 0, 1, 0, 0);
+		
+		//surface.drawImage(minimap, 8, 8);
 		
 		pc.drawStarfield(surface);
 		
