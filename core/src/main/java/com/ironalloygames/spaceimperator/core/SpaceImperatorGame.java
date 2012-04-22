@@ -23,7 +23,7 @@ public class SpaceImperatorGame implements Game, Renderer {
 	
 	public World world;
 	
-	Ship pc;
+	public Ship pc;
 	
 	ArrayList<Actor> actors = new ArrayList<Actor>();
 	

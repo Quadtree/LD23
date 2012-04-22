@@ -32,11 +32,14 @@ public abstract class Ship extends Actor implements Listener, playn.core.Keyboar
 	
 	public float getMaxHP(){ return 1; }
 	
+	public boolean hasTurrets(){ return false; }
+	
 	Body body;
 	
 	float hp;
 	
 	Vec2 aim = new Vec2();
+	Vec2 firePoint = new Vec2();
 	
 	Vec2 mousePos;
 	
@@ -65,6 +68,18 @@ public abstract class Ship extends Actor implements Listener, playn.core.Keyboar
 		
 		if(mousePos != null) aim = screenToReal(mousePos);
 		
+		if(hasTurrets())
+		{
+			firePoint.set(aim);
+		} else {
+			Vec2 delta = aim.sub(body.getPosition());
+			System.out.println(delta);
+			float angle = body.getAngle();
+			firePoint.x = (float)Math.cos(angle) * delta.length();
+			firePoint.y = (float)Math.sin(angle) * delta.length();
+			firePoint.addLocal(body.getPosition());
+		}
+		
 		super.update();
 	}
 	
@@ -81,19 +96,32 @@ public abstract class Ship extends Actor implements Listener, playn.core.Keyboar
 		target.drawImage(graphic, -graphic.width() / 2.f / 16.f, -graphic.height() / 2.f / 16.f, graphic.width() / 16.f, graphic.height() / 16.f);
 		target.restore();
 		
-		if(aimCircle == null)
+		
+		
+		if(SpaceImperatorGame.s.pc == this)
 		{
-			aimCircle = PlayN.assets().getImage("images/aimcircle.png");
-			aimPoint = PlayN.assets().getImage("images/aimpoint.png");
+			if(aimCircle == null)
+			{
+				aimCircle = PlayN.assets().getImage("images/aimcircle.png");
+				aimPoint = PlayN.assets().getImage("images/aimpoint.png");
+			}
+			
+			target.save();
+			
+			target.translate(aim.x, aim.y);
+			target.rotate(body.getAngle());
+			target.drawImage(aimCircle, -aimCircle.width() / 2.f / 16.f, -aimCircle.height() / 2.f / 16.f, aimCircle.width() / 16.f, aimCircle.height() / 16.f);
+			
+			target.restore();
+			
+			target.save();
+			
+			target.translate(firePoint.x, firePoint.y);
+			target.rotate(body.getAngle());
+			target.drawImage(aimPoint, -aimPoint.width() / 2.f / 16.f, -aimPoint.height() / 2.f / 16.f, aimPoint.width() / 16.f, aimPoint.height() / 16.f);
+			
+			target.restore();
 		}
-		
-		target.save();
-		
-		target.translate(aim.x, aim.y);
-		target.rotate(body.getAngle());
-		target.drawImage(aimCircle, -aimCircle.width() / 2.f / 16.f, -aimCircle.height() / 2.f / 16.f, aimCircle.width() / 16.f, aimCircle.height() / 16.f);
-		
-		target.restore();
 		
 		
 		super.render(target);
@@ -123,14 +151,14 @@ public abstract class Ship extends Actor implements Listener, playn.core.Keyboar
 		target.translate(SpaceImperatorGame.WINDOW_WIDTH / 2, SpaceImperatorGame.WINDOW_HEIGHT / 2);
 		
 		target.scale(16, 16);
-		target.rotate(-body.getAngle());
+		target.rotate(-body.getAngle() - (float)Math.PI / 2);
 		target.translate(-body.getPosition().x, -body.getPosition().y);
 	}
 	
 	public Vec2 screenToReal(Vec2 screen)
 	{
 		Vec2 delta = screen.sub(new Vec2(SpaceImperatorGame.WINDOW_WIDTH / 2, SpaceImperatorGame.WINDOW_HEIGHT / 2));
-		float angle = (float)Math.atan2(delta.y, delta.x) + body.getAngle();
+		float angle = (float)Math.atan2(delta.y, delta.x) + body.getAngle() + (float)Math.PI / 2;
 		float dist = delta.length() / 16;
 		
 		Vec2 pos = body.getPosition().add(new Vec2((float)Math.cos(angle) * dist, (float)Math.sin(angle) * dist));
