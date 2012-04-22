@@ -98,7 +98,7 @@ public class SpaceImperatorGame implements Game, Renderer, ContactListener {
 		
 		graphics().setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 		
-		actors.add(new Battleship(new Vec2(100,100)));
+		//actors.add(new Battleship(new Vec2(100,100)));
 		
 		minimap = assets().getImage("images/minimap.png");
 		
@@ -136,7 +136,7 @@ public class SpaceImperatorGame implements Game, Renderer, ContactListener {
 		if(pc == null)
 		{
 			credits *= 0.6f;
-			pc = new Battleship(new Vec2(56,56));
+			pc = new Fighter(new Vec2(56,56));
 			actors.add(pc);
 			mouse().setListener(pc);
 			keyboard().setListener(pc);

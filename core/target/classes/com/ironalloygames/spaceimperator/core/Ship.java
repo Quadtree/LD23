@@ -416,7 +416,7 @@ public abstract class Ship extends Actor implements Listener, playn.core.Keyboar
 		
 		target.save();
 		
-		//target.translate(-body.getPosition().x + SpaceImperatorGame.WINDOW_WIDTH / 2, -body.getPosition().y + SpaceImperatorGame.WINDOW_HEIGHT / 2);
+		target.translate(-body.getPosition().x + SpaceImperatorGame.WINDOW_WIDTH / 2, -body.getPosition().y + SpaceImperatorGame.WINDOW_HEIGHT / 2);
 		
 		target.drawImage(starfield, -600, -600);
 		
