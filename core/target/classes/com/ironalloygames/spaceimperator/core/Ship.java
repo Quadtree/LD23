@@ -29,6 +29,7 @@ public abstract class Ship extends Actor implements Listener, playn.core.Keyboar
 	static Image aimPoint;
 	
 	static Image mmiPlayer;
+	static Image mmiShip;
 	
 	public abstract Image getGraphic();
 	public abstract Image getForwardThrustGraphic();
@@ -287,6 +288,7 @@ public abstract class Ship extends Actor implements Listener, playn.core.Keyboar
 			starfield = il.image();*/
 			
 			mmiPlayer = PlayN.assets().getImage("images/mmi_player.png");
+			mmiShip = PlayN.assets().getImage("images/mmi_ship.png");
 			
 			starfield = PlayN.graphics().createImage(2000, 2000);
 			
@@ -418,6 +420,8 @@ public abstract class Ship extends Actor implements Listener, playn.core.Keyboar
 		if(SpaceImperatorGame.s.pc == this)
 		{
 			img = mmiPlayer;
+		} else {
+			img = mmiShip;
 		}
 		
 		if(img != null)
