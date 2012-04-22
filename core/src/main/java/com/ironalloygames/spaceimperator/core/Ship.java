@@ -305,25 +305,56 @@ public abstract class Ship extends Actor implements Listener, playn.core.Keyboar
 	{
 		float range = SpaceImperatorGame.s.pc.body.getPosition().sub(body.getPosition()).length();
 		
-		aim = SpaceImperatorGame.s.pc.body.getPosition();
-		
 		thrust = -1;
 		strafe = 0;
+		
 		fireBolts = false;
 		fireMissiles = false;
 		
-		if(turn == 0)
+		aim = SpaceImperatorGame.s.pc.body.getPosition();
+		
+		if(range < 100)
 		{
-			if(range < 20)
+			if(!hasTurrets())
 			{
-				strafe = 1;
-				thrust = 0;
+				if(turn == 0)
+				{
+					if(range < 20)
+					{
+						strafe = 1;
+						thrust = 0;
+						fireBolts = true;
+						//fireMissiles = true;
+					} else if(range < 100)
+					{
+						thrust = 1;
+						strafe = 0;
+					}
+				}
+			} else {
 				fireBolts = true;
-				//fireMissiles = true;
-			} else if(range < 100)
-			{
-				thrust = 1;
-				strafe = 0;
+				
+				Vec2 movePos = aim.add(new Vec2(20,0));
+				
+				Vec2 pLeft = body.getPosition().add(new Vec2((float)Math.cos(body.getAngle() - 0.1f), (float)Math.sin(body.getAngle() - 0.1f)));
+				Vec2 pCenter = body.getPosition().add(new Vec2((float)Math.cos(body.getAngle()), (float)Math.sin(body.getAngle())));
+				Vec2 pRight = body.getPosition().add(new Vec2((float)Math.cos(body.getAngle() + 0.1f), (float)Math.sin(body.getAngle() + 0.1f)));
+				
+				float lLeft = movePos.sub(pLeft).lengthSquared();
+				float lCenter = movePos.sub(pCenter).lengthSquared();
+				float lRight = movePos.sub(pRight).lengthSquared();
+				
+				thrust = -1;
+				
+				if(lLeft < lCenter && lLeft < lRight)
+					strafe = -1;
+				else if(lRight < lCenter && lRight < lLeft)
+					strafe = 1;
+				else
+				{
+					strafe = 0;
+					thrust = 1;
+				}
 			}
 		}
 	}
