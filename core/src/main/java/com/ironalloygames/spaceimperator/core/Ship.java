@@ -379,7 +379,7 @@ public abstract class Ship extends Actor implements Listener, playn.core.Keyboar
 		if(!replaced)
 		{
 			SpaceImperatorGame.s.actors.add(new Explosion(body.getPosition(), getSize().x * 4));
-			PlayN.assets().getSound("sfx/ship_die").play();
+			SoundPlayer.play("sfx/ship_die");
 		}
 		
 		SpaceImperatorGame.s.world.destroyBody(body);
@@ -486,7 +486,7 @@ public abstract class Ship extends Actor implements Listener, playn.core.Keyboar
 		
 		if(event.key() == Key.U && SpaceImperatorGame.s.upgradeText.length() > 0)
 		{
-			PlayN.assets().getSound("sfx/upgrade_ship").play();
+			SoundPlayer.play("sfx/upgrade_ship");
 			SpaceImperatorGame.s.credits -= getUpgradeCost();
 			upgrade();
 		}

@@ -73,7 +73,7 @@ public class Missile extends Actor {
 
 	@Override
 	public void destroyed() {
-		PlayN.assets().getSound("sfx/missile_hit").play();
+		SoundPlayer.play("sfx/missile_hit");
 		
 		SpaceImperatorGame.s.actors.add(new Explosion(body.getPosition(), 4));
 		

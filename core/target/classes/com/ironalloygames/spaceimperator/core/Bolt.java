@@ -45,11 +45,7 @@ public class Bolt extends Actor {
 		vel.normalize();
 		
 		body.setLinearVelocity(vel.mulLocal(400).add(velocityBase));
-		if(!SpaceImperatorGame.s.shotSoundThisFrame)
-		{
-			//PlayN.assets().getSound("sfx/bolt").play();
-			SpaceImperatorGame.s.shotSoundThisFrame = true;
-		}
+		SoundPlayer.play("sfx/bolt");
 	}
 
 	@Override
@@ -70,11 +66,7 @@ public class Bolt extends Actor {
 		other.takeDamage(1);
 		life = 0;
 		
-		if(!SpaceImperatorGame.s.hitSoundThisFrame)
-		{
-			//PlayN.assets().getSound("sfx/bolt_hit").play();
-			SpaceImperatorGame.s.hitSoundThisFrame = true;
-		}
+		SoundPlayer.play("sfx/bolt_hit");
 		
 		super.collidedWith(other);
 	}
