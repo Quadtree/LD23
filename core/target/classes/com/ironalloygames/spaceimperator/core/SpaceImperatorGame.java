@@ -12,11 +12,13 @@ import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.World;
 import org.jbox2d.dynamics.contacts.Contact;
 
+import playn.core.CanvasImage;
 import playn.core.Game;
 import playn.core.Image;
 import playn.core.ImageLayer;
 import playn.core.ImmediateLayer.Renderer;
 import playn.core.Surface;
+import playn.core.SurfaceLayer;
 
 public class SpaceImperatorGame implements Game, Renderer, ContactListener {
 	
@@ -41,6 +43,10 @@ public class SpaceImperatorGame implements Game, Renderer, ContactListener {
 	Image healthFull;
 	Image healthDepleted;
 	
+	CanvasImage overlay;
+	
+	float credits;
+	
 	@Override
 	public void init() {
 		s = this;
@@ -51,6 +57,8 @@ public class SpaceImperatorGame implements Game, Renderer, ContactListener {
 		world.setContactListener(this);
 		
 		actors.add(new Planet(new Vec2(), Planet.PlanetSize.Tiny, true));
+		
+		overlay = graphics().createImage(WINDOW_WIDTH, WINDOW_HEIGHT);
 		
 		//actors.add(new Planet(new Vec2(0, 40), Planet.PlanetSize.Tiny, false));
 		
@@ -144,6 +152,15 @@ public class SpaceImperatorGame implements Game, Renderer, ContactListener {
 			
 			surface.drawImage(img, x * 20 + 20, y * 20 + 20);
 		}
+		
+		overlay.canvas().clear();
+		overlay.canvas().setFillColor(0xff00ff00);
+		overlay.canvas().fillCircle(60, 60, 20);
+		overlay.canvas().drawText("Test!", 20, 20);
+		
+		overlay.canvas().drawPoint(50, 50);
+		
+		surface.drawImage(overlay, 0, 0);
 	}
 
 	@Override
