@@ -47,9 +47,11 @@ public class SpaceImperatorGame implements Game, Renderer, ContactListener {
 	
 	CanvasImage overlay;
 	
-	float credits;
+	float credits = 20000;
 	
 	Vec2[] dustPos;
+	
+	String upgradeText;
 	
 	@Override
 	public void init() {
@@ -209,7 +211,10 @@ public class SpaceImperatorGame implements Game, Renderer, ContactListener {
 		overlay.canvas().setFillColor(0xff00ff00);
 		overlay.canvas().drawText("Credits: " + (int)credits, 20, 740);
 		
-		overlay.canvas().drawText("A\nB\nC", 20, 600);
+		int cy = 500;
+		
+		for(String s : upgradeText.split("\n"))
+			overlay.canvas().drawText(s, 20, cy += 18);
 		
 		surface.drawImage(overlay, 0, 0);
 	}

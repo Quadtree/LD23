@@ -68,11 +68,19 @@ public class Fighter extends Ship {
 	public float getMaxHP() {
 		return 7;
 	}
+
+	@Override
+	public String getUpgradeText()
+	{
+		return  "The heavier cousin to the light fighter,\n" +
+				"the heavy fighter features double the firepower\n" +
+				"and increased armor. It does trade some agility\n" +
+				"for this however.";
+	}
 	
 	@Override
-	public Class<? extends Ship> upgradesTo()
+	public float getUpgradeCost()
 	{
-		return HeavyFighter.class;
+		return 200;
 	}
-
 }

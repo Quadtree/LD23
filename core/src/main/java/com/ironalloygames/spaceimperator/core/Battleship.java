@@ -85,17 +85,9 @@ public class Battleship extends Ship {
 	public boolean hasTurrets() {
 		return true;
 	}
-	
-	public static String getUpgradeText()
-	{
-		return  "A fleet mainstay, the battleship has eight gun batteries,\n" +
-				"plus six point defenses, giving it unrivaled firepower.\n" +
-				"It does suffer from low maneuverability, but this is usually\n" +
-				"compensated for by its huge amount of armor.";
-	}
-	
-	public static float getUpgradeCost()
-	{
-		return 5000;
+
+	@Override
+	public float getUpgradeCost() {
+		return Float.MAX_VALUE;
 	}
 }

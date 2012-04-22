@@ -73,23 +73,18 @@ public class Frigate extends Ship {
 	public boolean hasTurrets() {
 		return true;
 	}
+
+	@Override
+	public String getUpgradeText()
+	{
+		return  "The cruiser has all the firepower of the frigate,\n" +
+				"plus four point defense beams, giving it excellent\n" +
+				"protection. It is however slow and ungainly.";
+	}
 	
 	@Override
-	public Class<? extends Ship> upgradesTo()
+	public float getUpgradeCost()
 	{
-		return Cruiser.class;
-	}
-
-	public static String getUpgradeText()
-	{
-		return  "The smallest \"capital\" ship, the frigate has\n" +
-				"four gun batteries that can swivel to fire in\n" +
-				"any direction. It does trade the ability to strafe\n" +
-				"for this however.";
-	}
-	
-	public static float getUpgradeCost()
-	{
-		return 500;
+		return 2000;
 	}
 }

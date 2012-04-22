@@ -200,6 +200,8 @@ public abstract class Ship extends Actor implements Listener, playn.core.Keyboar
 			}
 		}
 		
+		SpaceImperatorGame.s.upgradeText = "";
+		
 		if(this == SpaceImperatorGame.s.pc)
 		{
 			
@@ -210,12 +212,12 @@ public abstract class Ship extends Actor implements Listener, playn.core.Keyboar
 				if(a instanceof Planet && ((Planet)a).ownedByPlayer && a.body.getPosition().sub(body.getPosition()).length() < ((Planet)a).getRadius() + 10) nearAlliedPlanet = true;
 			}
 			
-			if(upgradesTo() != null)
+			if(nearAlliedPlanet)
 			{
-				String text;
-				float cost;
-				
-				
+				if(SpaceImperatorGame.s.credits >= getUpgradeCost())
+				{
+					SpaceImperatorGame.s.upgradeText = "Upgrade Available!\n" + getUpgradeText() + "\nUpgrade Cost: " + (int)getUpgradeCost() + " Credits";
+				}
 			}
 		}
 		
@@ -488,7 +490,6 @@ public abstract class Ship extends Actor implements Listener, playn.core.Keyboar
 		super.renderToMinimap(upperLeft, target);
 	}
 	
-	public boolean canUpgrade(){ return false; }
 	public void upgrade(){}
 	public String getUpgradeText(){ return ""; }
 	public float getUpgradeCost(){ return 0; }

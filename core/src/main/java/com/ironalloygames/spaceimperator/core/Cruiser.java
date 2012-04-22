@@ -80,15 +80,18 @@ public class Cruiser extends Ship {
 		return true;
 	}
 
-	public static String getUpgradeText()
+	@Override
+	public String getUpgradeText()
 	{
-		return  "The cruiser has all the firepower of the frigate,\n" +
-				"plus four point defense beams, giving it excellent\n" +
-				"protection. It is however slow and ungainly.";
+		return  "A fleet mainstay, the battleship has eight gun batteries,\n" +
+				"plus six point defenses, giving it unrivaled firepower.\n" +
+				"It does suffer from low maneuverability, but this is usually\n" +
+				"compensated for by its huge amount of armor.";
 	}
 	
-	public static float getUpgradeCost()
+	@Override
+	public float getUpgradeCost()
 	{
-		return 2000;
+		return 5000;
 	}
 }
