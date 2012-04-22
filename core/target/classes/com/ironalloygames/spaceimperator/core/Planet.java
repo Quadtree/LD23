@@ -227,7 +227,7 @@ public class Planet extends Actor {
 					
 					for(Actor a : SpaceImperatorGame.s.actors)
 					{
-						if(a instanceof Ship && a != SpaceImperatorGame.s.pc)
+						if(a instanceof Ship && a != SpaceImperatorGame.s.pc && a.keep())
 						{
 							float curDist = pos.sub(a.body.getPosition()).lengthSquared();
 							

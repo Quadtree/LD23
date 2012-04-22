@@ -1,5 +1,8 @@
 package com.ironalloygames.spaceimperator.core;
 
+import static playn.core.PlayN.keyboard;
+import static playn.core.PlayN.mouse;
+
 import org.jbox2d.common.Vec2;
 
 import playn.core.Image;
@@ -93,5 +96,20 @@ public class Cruiser extends Ship {
 	public float getUpgradeCost()
 	{
 		return 5000;
+	}
+	
+	@Override
+	public void upgrade() {
+		replaced = true;
+		
+		Ship replacement = new Battleship(body.getPosition());
+		
+		SpaceImperatorGame.s.actors.add(replacement);
+		SpaceImperatorGame.s.pc = replacement;
+		
+		mouse().setListener(replacement);
+		keyboard().setListener(replacement);
+		
+		super.upgrade();
 	}
 }

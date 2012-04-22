@@ -61,6 +61,8 @@ public abstract class Ship extends Actor implements Listener, playn.core.Keyboar
 	boolean fireBolts;
 	boolean fireMissiles;
 	
+	boolean replaced;
+	
 	ArrayList<Gun> guns = new ArrayList<Gun>();
 	
 	public Ship(Vec2 pos)
@@ -313,7 +315,7 @@ public abstract class Ship extends Actor implements Listener, playn.core.Keyboar
 	
 	@Override
 	public boolean keep() {
-		return hp > 0;
+		return hp > 0 && !replaced;
 	}
 	
 	@Override
@@ -323,7 +325,8 @@ public abstract class Ship extends Actor implements Listener, playn.core.Keyboar
 	
 	@Override
 	public void destroyed() {
-		SpaceImperatorGame.s.actors.add(new Explosion(body.getPosition(), getSize().x * 4));
+		if(!replaced)
+			SpaceImperatorGame.s.actors.add(new Explosion(body.getPosition(), getSize().x * 4));
 		
 		SpaceImperatorGame.s.world.destroyBody(body);
 		body = null;
@@ -423,6 +426,11 @@ public abstract class Ship extends Actor implements Listener, playn.core.Keyboar
 		{
 			SpaceImperatorGame.s.credits -= DROP_POD_COST;
 			launchDropPod();
+		}
+		
+		if(event.key() == Key.U && SpaceImperatorGame.s.upgradeText.length() > 0)
+		{
+			upgrade();
 		}
 		
 		thrustCheck();
