@@ -173,6 +173,11 @@ public abstract class Ship extends Actor implements Listener, playn.core.Keyboar
 		Vec2 size = getSize();
 		
 		target.drawImage(getGraphic(), -size.x / 2, -size.y / 2, size.x, size.y);
+		
+		if(thrust == 1) target.drawImage(getForwardThrustGraphic(), -size.x / 2, -size.y / 2, size.x, size.y);
+		if(strafe == -1) target.drawImage(getLeftThrustGraphic(), -size.x / 2, -size.y / 2, size.x, size.y);
+		if(strafe == 1) target.drawImage(getRightThrustGraphic(), -size.x / 2, -size.y / 2, size.x, size.y);
+		
 		target.restore();
 		
 		
@@ -256,6 +261,8 @@ public abstract class Ship extends Actor implements Listener, playn.core.Keyboar
 	
 	@Override
 	public void destroyed() {
+		SpaceImperatorGame.s.actors.add(new Explosion(body.getPosition(), getSize().x * 4));
+		
 		SpaceImperatorGame.s.world.destroyBody(body);
 		body = null;
 		claimedColGroups[colGroup] = false;

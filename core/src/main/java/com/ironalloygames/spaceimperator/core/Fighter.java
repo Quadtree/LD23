@@ -8,6 +8,9 @@ import playn.core.PlayN;
 public class Fighter extends Ship {
 	
 	static Image mainGraphic;
+	static Image strafeLeftGraphic;
+	static Image strafeRightGraphic;
+	static Image thrustGraphic;
 
 	public Fighter(Vec2 pos) {
 		super(pos);
@@ -19,6 +22,9 @@ public class Fighter extends Ship {
 		if(mainGraphic == null)
 		{
 			mainGraphic = PlayN.assets().getImage("images/fighter.png");
+			strafeLeftGraphic = PlayN.assets().getImage("images/fighter_sl.png");
+			strafeRightGraphic = PlayN.assets().getImage("images/fighter_sr.png");
+			thrustGraphic = PlayN.assets().getImage("images/fighter_fwd.png");
 		}
 	}
 
@@ -30,20 +36,17 @@ public class Fighter extends Ship {
 
 	@Override
 	public Image getForwardThrustGraphic() {
-		// TODO Auto-generated method stub
-		return null;
+		return thrustGraphic;
 	}
 
 	@Override
 	public Image getLeftThrustGraphic() {
-		// TODO Auto-generated method stub
-		return null;
+		return strafeLeftGraphic;
 	}
 
 	@Override
 	public Image getRightThrustGraphic() {
-		// TODO Auto-generated method stub
-		return null;
+		return strafeRightGraphic;
 	}
 
 	@Override
