@@ -72,7 +72,7 @@ public class SpaceImperatorGame implements Game, Renderer, ContactListener {
 		world = new World(new Vec2(), false);
 		world.setContactListener(this);
 		
-		actors.add(new Planet(new Vec2(), Planet.PlanetSize.Tiny, true));
+		actors.add(new Planet(new Vec2(50,50), Planet.PlanetSize.Tiny, true));
 		
 		overlay = graphics().createImage(WINDOW_WIDTH, WINDOW_HEIGHT);
 		
@@ -111,6 +111,8 @@ public class SpaceImperatorGame implements Game, Renderer, ContactListener {
 		
 		titleImage = assets().getImage("images/title.png");
 		introImage = assets().getImage("images/intro.png");
+		victoryImage = assets().getImage("images/victory.png");
+		defeatImage = assets().getImage("images/defeat.png");
 	}
 
 	@Override
@@ -130,7 +132,7 @@ public class SpaceImperatorGame implements Game, Renderer, ContactListener {
 		if(pc == null)
 		{
 			credits *= 0.6f;
-			pc = new Fighter(new Vec2(6,6));
+			pc = new Fighter(new Vec2(56,56));
 			actors.add(pc);
 			mouse().setListener(pc);
 			keyboard().setListener(pc);
@@ -138,17 +140,36 @@ public class SpaceImperatorGame implements Game, Renderer, ContactListener {
 		
 		if(introScreen || titleScreen || defeatScreen || victoryScreen) return;
 		
+		float alliedPop = 0;
+		float enemyPop = 0;
+		
 		for(int i=0;i<actors.size();++i)
 		{
 			if(actors.get(i).keep())
 			{
 				actors.get(i).update();
+				
+				if(actors.get(i) instanceof Planet)
+				{
+					Planet p = (Planet) actors.get(i);
+					
+					if(p.ownedByPlayer)
+						alliedPop += p.population;
+					else
+						enemyPop += p.population;
+				}
 			} else {
 				actors.get(i).destroyed();
 				actors.remove(i);
 				--i;
 			}
 		}
+		
+		if(alliedPop < 0.01f)
+			defeatScreen = true;
+		
+		if(enemyPop < 0.01f)
+			victoryScreen = true;
 		
 		world.step(0.0016f, 3, 3);
 	}
@@ -164,6 +185,18 @@ public class SpaceImperatorGame implements Game, Renderer, ContactListener {
 		if(titleScreen)
 		{
 			surface.drawImage(titleImage, 0, 0);
+			return;
+		}
+		
+		if(defeatScreen)
+		{
+			surface.drawImage(defeatImage, 0, 0);
+			return;
+		}
+		
+		if(victoryScreen)
+		{
+			surface.drawImage(victoryImage, 0, 0);
 			return;
 		}
 		
