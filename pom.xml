@@ -17,10 +17,35 @@
     <playn.version>1.9</playn.version>
   </properties>
 
+  <profiles>
+    <profile>
+      <id>java</id>
+      <activation><activeByDefault>true</activeByDefault></activation>
+      <modules><module>java</module></modules>
+    </profile>
+    <profile>
+      <id>android</id>
+      <modules><module>android</module></modules>
+    </profile>
+    <profile>
+      <id>robosim</id>
+      <modules><module>robovm</module></modules>
+    </profile>
+    <profile>
+      <id>robodev</id>
+      <modules><module>robovm</module></modules>
+    </profile>
+    <profile>
+      <id>ios</id>
+      <modules><module>ios</module></modules>
+    </profile>
+    <profile>
+      <id>html</id>
+      <modules><module>html</module></modules>
+    </profile>
+  </profiles>
   <modules>
+    <module>assets</module>
     <module>core</module>
-    <module>java</module>
-    <module>html</module>
-    <module>android</module>
   </modules>
 </project>

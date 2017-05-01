@@ -9,7 +9,6 @@ public class SpaceImperatorGameActivity extends GameActivity {
 
   @Override
   public void main(){
-    platform().assets().setPathPrefix("com/ironalloygames/spaceimperator/resources");
     PlayN.run(new SpaceImperatorGame());
   }
 }
