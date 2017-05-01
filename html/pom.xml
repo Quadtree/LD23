@@ -21,6 +21,20 @@
   </properties>
 
   <dependencies>
+  	<dependency>
+      <groupId>com.googlecode.playn</groupId>
+      <artifactId>playn-jbox2d</artifactId>
+      <version>${playn.version}</version>
+      <classifier>sources</classifier>
+    </dependency>
+    
+    <dependency>
+      <groupId>org.jbox2d</groupId>
+      <artifactId>jbox2d-library</artifactId>
+      <version>${jbox2d.version}</version>
+      <classifier>sources</classifier>
+    </dependency>
+  
     <dependency>
       <groupId>com.ironalloygames</groupId>
       <artifactId>spaceimperator-core</artifactId>

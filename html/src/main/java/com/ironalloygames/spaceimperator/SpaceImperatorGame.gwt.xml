@@ -1,6 +1,7 @@
 <module rename-to='spaceimperator'>
   <inherits name='playn.PlayN'/>
   <inherits name='SpaceImperatorGameAssets'/>
+  <inherits name='org.jbox2d.JBox2D'/>
 
   <source path='core'/>
   <source path='html'/>
