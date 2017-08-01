@@ -208,16 +208,16 @@ public class Planet extends Actor {
 	void spawnShip() {
 		switch (type) {
 		case Tiny:
-			SpaceImperatorGame.s.actors.add(new Fighter(body.getPosition()));
+			SpaceImperatorGame.s.actors.add(new Fighter(body.getPosition().cpy()));
 			break;
 		case Small:
-			SpaceImperatorGame.s.actors.add(new HeavyFighter(body.getPosition()));
+			SpaceImperatorGame.s.actors.add(new HeavyFighter(body.getPosition().cpy()));
 			break;
 		case Medium:
-			SpaceImperatorGame.s.actors.add(new Frigate(body.getPosition()));
+			SpaceImperatorGame.s.actors.add(new Frigate(body.getPosition().cpy()));
 			break;
 		case Large:
-			SpaceImperatorGame.s.actors.add(new Battleship(body.getPosition()));
+			SpaceImperatorGame.s.actors.add(new Battleship(body.getPosition().cpy()));
 			break;
 		}
 	}
@@ -265,7 +265,7 @@ public class Planet extends Actor {
 				if (target != null && pos.cpy().sub(target.body.getPosition()).len() < 150) {
 					if (SpaceImperatorGame.s.rand.nextInt(60) != 0)
 						SpaceImperatorGame.s.actors
-								.add(new Bolt(pos, target.body.getPosition().add(new Vector2(SpaceImperatorGame.s.rand.nextFloat() * 6 - 3, SpaceImperatorGame.s.rand.nextFloat() * 6 - 3)), new Vector2(), colGroup, 120));
+								.add(new Bolt(pos, target.body.getPosition().cpy().add(new Vector2(SpaceImperatorGame.s.rand.nextFloat() * 6 - 3, SpaceImperatorGame.s.rand.nextFloat() * 6 - 3)), new Vector2(), colGroup, 120));
 					else
 						SpaceImperatorGame.s.actors.add(new Missile(pos, target, new Vector2(), colGroup));
 

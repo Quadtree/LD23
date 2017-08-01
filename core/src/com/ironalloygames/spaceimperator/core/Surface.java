@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
 
@@ -67,7 +68,7 @@ public class Surface {
 
 	public void rotate(float rot) {
 		endBatchIfStarted();
-		batch.getTransformMatrix().rotate(new Vector3(0, 0, 1), rot);
+		batch.getTransformMatrix().rotate(new Vector3(0, 0, 1), rot * MathUtils.radiansToDegrees);
 		beginBatchIfStopped();
 	}
 

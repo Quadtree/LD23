@@ -83,7 +83,7 @@ public class Fighter extends Ship {
 	public void upgrade() {
 		replaced = true;
 
-		Ship replacement = new HeavyFighter(body.getPosition());
+		Ship replacement = new HeavyFighter(body.getPosition().cpy());
 
 		SpaceImperatorGame.s.actors.add(replacement);
 		SpaceImperatorGame.s.pc = replacement;

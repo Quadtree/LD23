@@ -52,7 +52,7 @@ public class Missile extends Actor {
 	public void destroyed() {
 		SoundPlayer.play("sfx/missile_hit");
 
-		SpaceImperatorGame.s.actors.add(new Explosion(body.getPosition(), 4));
+		SpaceImperatorGame.s.actors.add(new Explosion(body.getPosition().cpy(), 4));
 
 		SpaceImperatorGame.s.world.destroyBody(body);
 		body = null;
@@ -92,19 +92,19 @@ public class Missile extends Actor {
 			return;
 		}
 
-		Vector2 delta = target.body.getPosition().sub(body.getPosition());
+		Vector2 delta = target.body.getPosition().cpy().sub(body.getPosition());
 
 		delta.nor();
 		delta.scl(15);
 
-		body.applyLinearImpulse(delta, body.getPosition(), true);
+		body.applyLinearImpulse(delta, body.getPosition().cpy(), true);
 
 		if (body.getLinearVelocity().len() > 750) {
 			body.getLinearVelocity().nor();
 			body.getLinearVelocity().scl(750);
 		}
 
-		SpaceImperatorGame.s.actors.add(new Explosion(body.getPosition().add(new Vector2(SpaceImperatorGame.s.rand.nextFloat() * 0.5f - 0.25f, SpaceImperatorGame.s.rand.nextFloat() * 0.5f - 0.25f)), 1.f));
+		SpaceImperatorGame.s.actors.add(new Explosion(body.getPosition().cpy().add(new Vector2(SpaceImperatorGame.s.rand.nextFloat() * 0.5f - 0.25f, SpaceImperatorGame.s.rand.nextFloat() * 0.5f - 0.25f)), 1.f));
 
 		life--;
 		super.update();

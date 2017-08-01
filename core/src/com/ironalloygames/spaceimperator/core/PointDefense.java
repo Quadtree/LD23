@@ -39,7 +39,7 @@ public class PointDefense extends Gun {
 
 			if (target != null) {
 				SoundPlayer.play("sfx/point_defense");
-				SpaceImperatorGame.s.actors.add(new Beam(pos, target.body.getPosition()));
+				SpaceImperatorGame.s.actors.add(new Beam(pos, target.body.getPosition().cpy()));
 				target.takeDamage(1);
 				cooldown = 25;
 			}

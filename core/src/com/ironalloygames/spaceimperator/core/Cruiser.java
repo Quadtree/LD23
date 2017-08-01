@@ -94,7 +94,7 @@ public class Cruiser extends Ship {
 	public void upgrade() {
 		replaced = true;
 
-		Ship replacement = new Battleship(body.getPosition());
+		Ship replacement = new Battleship(body.getPosition().cpy());
 
 		SpaceImperatorGame.s.actors.add(replacement);
 		SpaceImperatorGame.s.pc = replacement;

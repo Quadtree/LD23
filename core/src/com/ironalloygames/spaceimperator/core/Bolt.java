@@ -53,7 +53,7 @@ public class Bolt extends Actor {
 
 	@Override
 	public void destroyed() {
-		SpaceImperatorGame.s.actors.add(new Explosion(body.getPosition(), 2));
+		SpaceImperatorGame.s.actors.add(new Explosion(body.getPosition().cpy(), 2));
 
 		SpaceImperatorGame.s.world.destroyBody(body);
 		body = null;

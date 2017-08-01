@@ -87,7 +87,7 @@ public class Frigate extends Ship {
 	public void upgrade() {
 		replaced = true;
 
-		Ship replacement = new Cruiser(body.getPosition());
+		Ship replacement = new Cruiser(body.getPosition().cpy());
 
 		SpaceImperatorGame.s.actors.add(replacement);
 		SpaceImperatorGame.s.pc = replacement;

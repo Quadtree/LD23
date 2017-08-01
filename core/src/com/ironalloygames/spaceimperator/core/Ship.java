@@ -95,7 +95,7 @@ public abstract class Ship extends Actor implements InputProcessor {
 	@Override
 	public void destroyed() {
 		if (!replaced) {
-			SpaceImperatorGame.s.actors.add(new Explosion(body.getPosition(), getSize().x * 4));
+			SpaceImperatorGame.s.actors.add(new Explosion(body.getPosition().cpy(), getSize().x * 4));
 			SoundPlayer.play("sfx/ship_die");
 		}
 
@@ -246,7 +246,7 @@ public abstract class Ship extends Actor implements InputProcessor {
 
 	void launchDropPod() {
 		if (dropPodCooldown <= 0) {
-			SpaceImperatorGame.s.actors.add(new DropPod(body.getPosition(), aim, body.getLinearVelocity(), colGroup, 600, this == SpaceImperatorGame.s.pc));
+			SpaceImperatorGame.s.actors.add(new DropPod(body.getPosition().cpy(), aim, body.getLinearVelocity(), colGroup, 600, this == SpaceImperatorGame.s.pc));
 			dropPodCooldown = 60;
 		}
 	}
@@ -254,6 +254,7 @@ public abstract class Ship extends Actor implements InputProcessor {
 	@Override
 	public boolean mouseMoved(int screenX, int screenY) {
 		mousePos = new Vector2(screenX, screenY);
+		System.out.println("mousePos=" + mousePos);
 		return true;
 	}
 
@@ -319,7 +320,7 @@ public abstract class Ship extends Actor implements InputProcessor {
 	}
 
 	public void runAI() {
-		float range = SpaceImperatorGame.s.pc.body.getPosition().sub(body.getPosition()).len();
+		float range = SpaceImperatorGame.s.pc.body.getPosition().cpy().sub(body.getPosition()).len();
 
 		thrust = -1;
 		strafe = 0;
@@ -328,7 +329,7 @@ public abstract class Ship extends Actor implements InputProcessor {
 		fireMissiles = false;
 
 		if (range < 100)
-			aim.set(SpaceImperatorGame.s.pc.body.getPosition());
+			aim.set(SpaceImperatorGame.s.pc.body.getPosition().cpy());
 		else
 			aim.set(startPos);
 
@@ -350,9 +351,9 @@ public abstract class Ship extends Actor implements InputProcessor {
 
 			Vector2 movePos = aim.add(new Vector2(20, 0));
 
-			Vector2 pLeft = body.getPosition().add(new Vector2((float) Math.cos(body.getAngle() - 0.1f), (float) Math.sin(body.getAngle() - 0.1f)));
-			Vector2 pCenter = body.getPosition().add(new Vector2((float) Math.cos(body.getAngle()), (float) Math.sin(body.getAngle())));
-			Vector2 pRight = body.getPosition().add(new Vector2((float) Math.cos(body.getAngle() + 0.1f), (float) Math.sin(body.getAngle() + 0.1f)));
+			Vector2 pLeft = body.getPosition().cpy().add(new Vector2((float) Math.cos(body.getAngle() - 0.1f), (float) Math.sin(body.getAngle() - 0.1f)));
+			Vector2 pCenter = body.getPosition().cpy().add(new Vector2((float) Math.cos(body.getAngle()), (float) Math.sin(body.getAngle())));
+			Vector2 pRight = body.getPosition().cpy().add(new Vector2((float) Math.cos(body.getAngle() + 0.1f), (float) Math.sin(body.getAngle() + 0.1f)));
 
 			float lLeft = movePos.cpy().sub(pLeft).len2();
 			float lCenter = movePos.cpy().sub(pCenter).len2();
@@ -380,7 +381,7 @@ public abstract class Ship extends Actor implements InputProcessor {
 															 */;
 		float dist = delta.len() / 16;
 
-		Vector2 pos = body.getPosition().add(new Vector2((float) Math.cos(angle) * dist, (float) Math.sin(angle) * dist));
+		Vector2 pos = body.getPosition().cpy().add(new Vector2((float) Math.cos(angle) * dist, (float) Math.sin(angle) * dist));
 
 		return pos;
 	}
@@ -451,7 +452,7 @@ public abstract class Ship extends Actor implements InputProcessor {
 		if (hasTurrets()) {
 			firePoint.set(aim);
 		} else {
-			Vector2 delta = aim.sub(body.getPosition());
+			Vector2 delta = aim.cpy().sub(body.getPosition().cpy());
 			// System.out.println(delta);
 			float angle = body.getAngle();
 			firePoint.x = (float) Math.cos(angle) * delta.len();
@@ -474,7 +475,7 @@ public abstract class Ship extends Actor implements InputProcessor {
 				turn = 1;
 			else {
 				turn = 0;
-				body.setTransform(body.getPosition(), (float) Math.atan2(aim.y - body.getPosition().y, aim.x - body.getPosition().x));
+				body.setTransform(body.getPosition().cpy(), (float) Math.atan2(aim.y - body.getPosition().y, aim.x - body.getPosition().x));
 			}
 		} else {
 			turn = strafe;
@@ -485,7 +486,7 @@ public abstract class Ship extends Actor implements InputProcessor {
 		if (thrust == 1) {
 			Vector2 velVec = new Vector2((float) Math.cos(body.getAngle()) * this.getThrustPower(), (float) Math.sin(body.getAngle()) * this.getThrustPower());
 
-			body.applyLinearImpulse(velVec, body.getPosition(), true);
+			body.applyLinearImpulse(velVec, body.getPosition().cpy(), true);
 			// System.out.println("FULL PO");
 		}
 
@@ -495,12 +496,12 @@ public abstract class Ship extends Actor implements InputProcessor {
 
 			velVec.scl(-getThrustPower());
 
-			body.applyLinearImpulse(velVec, body.getPosition(), true);
+			body.applyLinearImpulse(velVec, body.getPosition().cpy(), true);
 		}
 
 		if (!hasTurrets())
 			body.applyLinearImpulse(new Vector2((float) Math.cos(body.getAngle() + Math.PI / 2) * this.getThrustPower() * strafe, (float) Math.sin(body.getAngle() + Math.PI / 2) * this.getThrustPower() * strafe),
-					body.getPosition(), true);
+					body.getPosition().cpy(), true);
 
 		for (Gun g : guns) {
 			g.update();
@@ -536,7 +537,7 @@ public abstract class Ship extends Actor implements InputProcessor {
 			}
 
 			if (target != null) {
-				SpaceImperatorGame.s.actors.add(new Missile(body.getPosition(), target, body.getLinearVelocity(), colGroup));
+				SpaceImperatorGame.s.actors.add(new Missile(body.getPosition().cpy(), target, body.getLinearVelocity(), colGroup));
 				missileCooldown = 60;
 
 				if (this == SpaceImperatorGame.s.pc)
