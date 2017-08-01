@@ -4,6 +4,12 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.Pixmap.Format;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.glutils.FrameBuffer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
@@ -22,7 +28,8 @@ public abstract class Ship extends Actor implements InputProcessor {
 	static Image mmiShip;
 	final static float REPAIR_COST = 10;
 
-	// static CanvasImage starfield;
+	static FrameBuffer starfield;
+	static Image starfieldImage;
 	Vector2 aim = new Vector2();
 	int dropPodCooldown = 0;
 	boolean fireBolts;
@@ -111,10 +118,36 @@ public abstract class Ship extends Actor implements InputProcessor {
 		if (mmiShip == null)
 			mmiShip = PlayN.assets().getImage("images/mmi_ship.png");
 
+		if (starfield == null) {
+			starfield = new FrameBuffer(Format.RGBA8888, 2000, 2000, false);
+			starfield.begin();
+
+			ShapeRenderer rnd = new ShapeRenderer();
+			rnd.begin(ShapeType.Point);
+
+			for (int i = 0; i < 1500; ++i) {
+				int r, g, b, a;
+
+				a = SpaceImperatorGame.s.rand.nextInt(255);
+				r = SpaceImperatorGame.s.rand.nextInt(50) + 200;
+				g = SpaceImperatorGame.s.rand.nextInt(50) + 200;
+				b = SpaceImperatorGame.s.rand.nextInt(50) + 200;
+
+				rnd.setColor(r, g, b, a);
+				rnd.point(MathUtils.random(0, 1999), MathUtils.random(0, 1999), 0);
+			}
+
+			rnd.end();
+
+			starfield.end();
+
+			starfieldImage = new Image(new Sprite(starfield.getColorBufferTexture()));
+		}
+
 		/*
 		 * if (starfield == null) {
 		 *
-		 * 
+		 *
 		 *
 		 * starfield = PlayN.graphics().createImage(2000, 2000);
 		 *
@@ -134,6 +167,8 @@ public abstract class Ship extends Actor implements InputProcessor {
 		target.save();
 
 		target.translate(-body.getPosition().x + SpaceImperatorGame.WINDOW_WIDTH / 2, -body.getPosition().y + SpaceImperatorGame.WINDOW_HEIGHT / 2);
+
+		target.drawImage(starfieldImage, -600, -600);
 
 		// target.drawImage(starfield, -600, -600);
 
@@ -524,8 +559,9 @@ public abstract class Ship extends Actor implements InputProcessor {
 		final float SPEED_LIMIT = 400;
 
 		if (body.getLinearVelocity().len() > SPEED_LIMIT) {
-			body.getLinearVelocity().nor();
-			body.getLinearVelocity().scl(SPEED_LIMIT);
+			Vector2 newSpeed = body.getLinearVelocity().cpy().nor();
+			newSpeed.scl(SPEED_LIMIT);
+			body.setLinearVelocity(newSpeed);
 		}
 
 		if (fireMissiles && missileCooldown <= 0 && (this != SpaceImperatorGame.s.pc || SpaceImperatorGame.s.credits >= MISSILE_COST)) {
@@ -557,6 +593,7 @@ public abstract class Ship extends Actor implements InputProcessor {
 		float repairRate = getMaxHP() / 60 / 120;
 
 		if (this == SpaceImperatorGame.s.pc) {
+			// System.out.println("SPEED=" + body.getLinearVelocity().len());
 
 			boolean nearAlliedPlanet = false;
 
