@@ -55,13 +55,14 @@ public class Surface {
 
 	public void drawImage(Image img, float x, float y, float w, float h) {
 
+		// img.sprite.set
 		img.sprite.setFlip(false, true);
-		img.sprite.setPosition(x, y);
-		img.sprite.setSize(w, h);
+		// img.sprite.setPosition(x, y);
+		// img.sprite.setSize(w, h);
 
-		img.sprite.draw(batch);
+		// img.sprite.draw(batch);
 
-		// batch.draw(img.sprite, x, y, w, h);
+		batch.draw(img.sprite, x, y, w, h);
 	}
 
 	public void drawText(String string, float x, float y) {
