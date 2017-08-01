@@ -23,7 +23,7 @@ public class PointDefense extends Gun {
 
 			for (Actor a : SpaceImperatorGame.s.actors) {
 				if ((a instanceof Ship || a instanceof Bolt || a instanceof Missile) && a != owner && a.keep() && a.colGroup != owner.colGroup) {
-					float dist = a.body.getPosition().sub(pos).lengthSquared();
+					float dist = a.body.getPosition().cpy().sub(pos).len();
 
 					if (dist < 10 * 10) {
 						if (!(a instanceof Missile))

@@ -21,20 +21,20 @@ public class Missile extends Actor {
 		System.out.println(colGroup);
 		CircleShape cs = new CircleShape();
 
-		cs.m_radius = 0.3f;
+		cs.setRadius(0.3f);
 
 		BodyDef bd = new BodyDef();
 
 		bd.position.set(source);
-		bd.type = BodyType.DYNAMIC;
-		bd.userData = this;
+		bd.type = BodyType.DynamicBody;
 
 		body = SpaceImperatorGame.s.world.createBody(bd);
+		body.setUserData(this);
 
 		FixtureDef fd = new FixtureDef();
 		fd.shape = cs;
 		fd.density = 1;
-		fd.filter.groupIndex = -colGroup;
+		fd.filter.groupIndex = (short) (-colGroup);
 
 		body.createFixture(fd);
 
@@ -94,14 +94,14 @@ public class Missile extends Actor {
 
 		Vector2 delta = target.body.getPosition().sub(body.getPosition());
 
-		delta.normalize();
-		delta.mulLocal(15);
+		delta.nor();
+		delta.scl(15);
 
-		body.applyLinearImpulse(delta, body.getPosition());
+		body.applyLinearImpulse(delta, body.getPosition(), true);
 
-		if (body.getLinearVelocity().length() > 750) {
-			body.getLinearVelocity().normalize();
-			body.getLinearVelocity().mulLocal(750);
+		if (body.getLinearVelocity().len() > 750) {
+			body.getLinearVelocity().nor();
+			body.getLinearVelocity().scl(750);
 		}
 
 		SpaceImperatorGame.s.actors.add(new Explosion(body.getPosition().add(new Vector2(SpaceImperatorGame.s.rand.nextFloat() * 0.5f - 0.25f, SpaceImperatorGame.s.rand.nextFloat() * 0.5f - 0.25f)), 1.f));

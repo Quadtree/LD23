@@ -14,8 +14,8 @@ public class Beam extends Actor {
 		Vector2 delta = target.sub(source);
 
 		angle = (float) Math.atan2(delta.y, delta.x);
-		length = delta.length();
-		pos = target.add(source).mul(0.5f);
+		length = delta.len();
+		pos = target.cpy().add(source).scl(0.5f);
 
 		width = 0.5f;
 	}

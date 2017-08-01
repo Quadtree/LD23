@@ -25,7 +25,7 @@ public abstract class Gun {
 		temp.x = (offset.x * mat11) + (offset.y * mat21);
 		temp.y = (offset.x * mat12) + (offset.y * mat22);
 
-		pos.addLocal(temp);
+		pos.add(temp);
 
 		return pos;
 	}

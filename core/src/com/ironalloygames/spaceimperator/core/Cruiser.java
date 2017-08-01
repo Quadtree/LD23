@@ -1,5 +1,6 @@
 package com.ironalloygames.spaceimperator.core;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 
 public class Cruiser extends Ship {
@@ -98,8 +99,7 @@ public class Cruiser extends Ship {
 		SpaceImperatorGame.s.actors.add(replacement);
 		SpaceImperatorGame.s.pc = replacement;
 
-		mouse().setListener(replacement);
-		keyboard().setListener(replacement);
+		Gdx.input.setInputProcessor(replacement);
 
 		super.upgrade();
 	}

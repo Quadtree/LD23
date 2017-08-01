@@ -17,27 +17,27 @@ public class Bolt extends Actor {
 		this.colGroup = colGroup;
 		CircleShape cs = new CircleShape();
 
-		cs.m_radius = 0.3f;
+		cs.setRadius(0.3f);
 
 		BodyDef bd = new BodyDef();
 
 		bd.position.set(source);
-		bd.type = BodyType.DYNAMIC;
-		bd.userData = this;
+		bd.type = BodyType.DynamicBody;
 
 		body = SpaceImperatorGame.s.world.createBody(bd);
+		body.setUserData(this);
 
 		FixtureDef fd = new FixtureDef();
 		fd.shape = cs;
 		fd.density = 1;
-		fd.filter.groupIndex = -colGroup;
+		fd.filter.groupIndex = (short) (-colGroup);
 
 		body.createFixture(fd);
 
 		Vector2 vel = target.sub(source);
-		vel.normalize();
+		vel.nor();
 
-		body.setLinearVelocity(vel.mulLocal(400).add(velocityBase));
+		body.setLinearVelocity(vel.scl(400).add(velocityBase));
 		SoundPlayer.play("sfx/bolt");
 	}
 

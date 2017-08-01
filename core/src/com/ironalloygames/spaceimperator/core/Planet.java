@@ -1,6 +1,7 @@
 package com.ironalloygames.spaceimperator.core;
 
 import java.util.EnumMap;
+import java.util.Random;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -85,22 +86,22 @@ public class Planet extends Actor {
 		this.type = type;
 		CircleShape cs = new CircleShape();
 
-		cs.m_radius = getRadius();
+		cs.setRadius(getRadius());
 
 		BodyDef bd = new BodyDef();
 
 		bd.position.set(pos);
-		bd.type = BodyType.STATIC;
-		bd.userData = this;
+		bd.type = BodyType.DynamicBody;
 
 		body = SpaceImperatorGame.s.world.createBody(bd);
+		body.setUserData(this);
 
 		claimColGroup();
 
 		FixtureDef fd = new FixtureDef();
 		fd.shape = cs;
 		fd.density = 0;
-		fd.filter.groupIndex = -colGroup;
+		fd.filter.groupIndex = (short) (-colGroup);
 
 		body.createFixture(fd);
 
@@ -249,7 +250,7 @@ public class Planet extends Actor {
 
 					for (Actor a : SpaceImperatorGame.s.actors) {
 						if (a instanceof Ship && a != SpaceImperatorGame.s.pc && a.keep()) {
-							float curDist = pos.sub(a.body.getPosition()).lengthSquared();
+							float curDist = pos.sub(a.body.getPosition()).len();
 
 							if (curDist < bestDist) {
 								bestDist = curDist;
@@ -261,7 +262,7 @@ public class Planet extends Actor {
 					target = SpaceImperatorGame.s.pc;
 				}
 
-				if (target != null && pos.sub(target.body.getPosition()).length() < 150) {
+				if (target != null && pos.cpy().sub(target.body.getPosition()).len() < 150) {
 					if (SpaceImperatorGame.s.rand.nextInt(60) != 0)
 						SpaceImperatorGame.s.actors
 								.add(new Bolt(pos, target.body.getPosition().add(new Vector2(SpaceImperatorGame.s.rand.nextFloat() * 6 - 3, SpaceImperatorGame.s.rand.nextFloat() * 6 - 3)), new Vector2(), colGroup, 120));
