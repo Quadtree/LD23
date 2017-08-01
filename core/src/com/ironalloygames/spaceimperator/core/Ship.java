@@ -106,11 +106,15 @@ public abstract class Ship extends Actor implements InputProcessor {
 	}
 
 	public void drawStarfield(Surface target) {
+		if (mmiPlayer == null)
+			mmiPlayer = PlayN.assets().getImage("images/mmi_player.png");
+		if (mmiShip == null)
+			mmiShip = PlayN.assets().getImage("images/mmi_ship.png");
+
 		/*
 		 * if (starfield == null) {
 		 *
-		 * mmiPlayer = PlayN.assets().getImage("images/mmi_player.png"); mmiShip
-		 * = PlayN.assets().getImage("images/mmi_ship.png");
+		 * 
 		 *
 		 * starfield = PlayN.graphics().createImage(2000, 2000);
 		 *
@@ -315,6 +319,8 @@ public abstract class Ship extends Actor implements InputProcessor {
 
 		if (img != null)
 			target.drawImage(img, upperLeft.x + body.getPosition().x / SpaceImperatorGame.WORLD_WIDTH * 234 - 12.5f, upperLeft.y + body.getPosition().y / SpaceImperatorGame.WORLD_HEIGHT * 234 - 12.5f, 25, 25);
+		else
+			System.out.println(this + " No minimap icon!");
 
 		super.renderToMinimap(upperLeft, target);
 	}
