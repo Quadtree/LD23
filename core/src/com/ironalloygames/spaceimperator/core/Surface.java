@@ -30,7 +30,7 @@ public class Surface {
 		setIdentityTransform();
 
 		OrthographicCamera ortho = new OrthographicCamera(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
-		ortho.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		ortho.setToOrtho(true, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		// ortho.position.x = -Gdx.graphics.getWidth();
 		// ortho.position.y = -Gdx.graphics.getHeight();
 		// ortho.translate(-Gdx.graphics.getWidth() / 2,
@@ -54,7 +54,14 @@ public class Surface {
 	}
 
 	public void drawImage(Image img, float x, float y, float w, float h) {
-		batch.draw(img.sprite, x, y, w, h);
+
+		img.sprite.setFlip(false, true);
+		img.sprite.setPosition(x, y);
+		img.sprite.setSize(w, h);
+
+		img.sprite.draw(batch);
+
+		// batch.draw(img.sprite, x, y, w, h);
 	}
 
 	public void drawText(String string, float x, float y) {

@@ -2,7 +2,6 @@ package com.ironalloygames.spaceimperator.core;
 
 import java.util.ArrayList;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
@@ -254,7 +253,7 @@ public abstract class Ship extends Actor implements InputProcessor {
 
 	@Override
 	public boolean mouseMoved(int screenX, int screenY) {
-		mousePos = new Vector2(screenX, Gdx.graphics.getHeight() - screenY);
+		mousePos = new Vector2(screenX, screenY);
 		// System.out.println("mousePos=" + mousePos);
 		return true;
 	}
@@ -431,7 +430,7 @@ public abstract class Ship extends Actor implements InputProcessor {
 
 	@Override
 	public boolean touchDragged(int screenX, int screenY, int pointer) {
-		mousePos = new Vector2(screenX, Gdx.graphics.getHeight() - screenY);
+		mousePos = new Vector2(screenX, screenY);
 		return false;
 	}
 
