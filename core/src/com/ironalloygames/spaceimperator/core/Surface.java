@@ -66,7 +66,12 @@ public class Surface {
 	}
 
 	public void drawText(String string, float x, float y) {
-		mainFont.draw(batch, string, x, y);
+		this.save();
+		endBatchIfStarted();
+		batch.getTransformMatrix().scl(1, -1, 1);
+		beginBatchIfStopped();
+		mainFont.draw(batch, string, x, -y);
+		this.restore();
 	}
 
 	public void end() {
