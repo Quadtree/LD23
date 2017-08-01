@@ -1,12 +1,12 @@
 package com.ironalloygames.spaceimperator.core;
 
-import static playn.core.PlayN.keyboard;
-import static playn.core.PlayN.mouse;
 
-import org.jbox2d.common.Vec2;
 
-import playn.core.Image;
-import playn.core.PlayN;
+
+
+
+
+
 
 public class Fighter extends Ship {
 	

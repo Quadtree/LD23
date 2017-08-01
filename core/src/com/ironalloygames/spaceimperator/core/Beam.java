@@ -1,10 +1,10 @@
 package com.ironalloygames.spaceimperator.core;
 
-import org.jbox2d.common.Vec2;
 
-import playn.core.Image;
-import playn.core.PlayN;
-import playn.core.Surface;
+
+
+
+
 
 public class Beam extends Actor {
 	Vec2 pos;

@@ -1,8 +1,8 @@
 package com.ironalloygames.spaceimperator.core;
 
-import org.jbox2d.common.Vec2;
 
-import playn.core.PlayN;
+
+
 
 public class PointDefense extends Gun {
 

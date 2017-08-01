@@ -1,9 +1,9 @@
 package com.ironalloygames.spaceimperator.core.client;
 
-import com.badlogic.gdx.ApplicationListener;
-import com.badlogic.gdx.backends.gwt.GwtApplication;
-import com.badlogic.gdx.backends.gwt.GwtApplicationConfiguration;
-import com.ironalloygames.spaceimperator.core.LD23;
+
+
+
+
 
 public class HtmlLauncher extends GwtApplication {
 
