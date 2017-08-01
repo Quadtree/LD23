@@ -164,17 +164,20 @@ public abstract class Ship extends Actor implements InputProcessor {
 		 * SpaceImperatorGame.s.rand.nextInt(starfield.height())); } }
 		 */
 
-		target.save();
+		if (body != null) {
+			target.save();
 
-		target.translate(-body.getPosition().x + SpaceImperatorGame.WINDOW_WIDTH / 2, -body.getPosition().y + SpaceImperatorGame.WINDOW_HEIGHT / 2);
+			target.translate(-body.getPosition().x + SpaceImperatorGame.WINDOW_WIDTH / 2, -body.getPosition().y + SpaceImperatorGame.WINDOW_HEIGHT / 2);
 
-		target.drawImage(starfieldImage, -600, -600);
+			target.drawImage(starfieldImage, -600, -600);
 
-		// target.drawImage(starfield, -600, -600);
+			// target.drawImage(starfield, -600, -600);
 
-		// target.drawImage(getGraphic(), -5, -5);
+			// target.drawImage(getGraphic(), -5, -5);
 
-		target.restore();
+			target.restore();
+		}
+
 	}
 
 	public abstract Image getForwardThrustGraphic();

@@ -23,7 +23,7 @@ public class SpaceImperatorGame implements ContactListener {
 
 	ArrayList<Actor> actors = new ArrayList<Actor>();
 
-	float credits = 0;
+	float credits = 100000;
 
 	Image defeatImage;
 
