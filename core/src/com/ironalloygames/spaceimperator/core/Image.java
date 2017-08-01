@@ -10,4 +10,11 @@ public class Image {
 		this.sprite = sprite;
 	}
 
+	public float height() {
+		return 0;
+	}
+
+	public float width() {
+		return 0;
+	}
 }

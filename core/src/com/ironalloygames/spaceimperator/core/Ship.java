@@ -62,7 +62,7 @@ public abstract class Ship extends Actor implements InputProcessor {
 		BodyDef bd = new BodyDef();
 
 		bd.position.set(pos);
-		bd.type = BodyType.DYNAMIC;
+		bd.type = BodyType.DynamicBody;
 
 		body = SpaceImperatorGame.s.world.createBody(bd);
 		body.setUserData(this);
@@ -190,6 +190,61 @@ public abstract class Ship extends Actor implements InputProcessor {
 		return hp > 0 && !replaced;
 	}
 
+	@Override
+	public boolean keyDown(int keycode) {
+		if (inputGotten())
+			return false;
+
+		if (keycode == Input.Keys.W)
+			forwardThrust = true;
+		if (keycode == Input.Keys.S)
+			stopThrust = true;
+		if (keycode == Input.Keys.A)
+			leftThrust = true;
+		if (keycode == Input.Keys.D)
+			rightThrust = true;
+
+		final float DROP_POD_COST = 25;
+
+		if (keycode == Input.Keys.G && SpaceImperatorGame.s.credits >= DROP_POD_COST) {
+			SpaceImperatorGame.s.credits -= DROP_POD_COST;
+			launchDropPod();
+		}
+
+		if (keycode == Input.Keys.U && SpaceImperatorGame.s.upgradeText.length() > 0) {
+			SoundPlayer.play("sfx/upgrade_ship");
+			SpaceImperatorGame.s.credits -= getUpgradeCost();
+			upgrade();
+		}
+
+		if (keycode == Input.Keys.F1)
+			SpaceImperatorGame.s.introScreen = true;
+
+		thrustCheck();
+		return true;
+	}
+
+	@Override
+	public boolean keyTyped(char character) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean keyUp(int keycode) {
+		if (keycode == Input.Keys.W)
+			forwardThrust = false;
+		if (keycode == Input.Keys.S)
+			stopThrust = false;
+		if (keycode == Input.Keys.A)
+			leftThrust = false;
+		if (keycode == Input.Keys.D)
+			rightThrust = false;
+
+		thrustCheck();
+		return true;
+	}
+
 	void launchDropPod() {
 		if (dropPodCooldown <= 0) {
 			SpaceImperatorGame.s.actors.add(new DropPod(body.getPosition(), aim, body.getLinearVelocity(), colGroup, 600, this == SpaceImperatorGame.s.pc));
@@ -198,88 +253,9 @@ public abstract class Ship extends Actor implements InputProcessor {
 	}
 
 	@Override
-	public void onKeyDown(Event event) {
-		if (inputGotten())
-			return;
-
-		if (event.key() == Key.W)
-			forwardThrust = true;
-		if (event.key() == Key.S)
-			stopThrust = true;
-		if (event.key() == Key.A)
-			leftThrust = true;
-		if (event.key() == Key.D)
-			rightThrust = true;
-
-		final float DROP_POD_COST = 25;
-
-		if (event.key() == Input.Keys.G && SpaceImperatorGame.s.credits >= DROP_POD_COST) {
-			SpaceImperatorGame.s.credits -= DROP_POD_COST;
-			launchDropPod();
-		}
-
-		if (event.key() == Input.Keys.U && SpaceImperatorGame.s.upgradeText.length() > 0) {
-			SoundPlayer.play("sfx/upgrade_ship");
-			SpaceImperatorGame.s.credits -= getUpgradeCost();
-			upgrade();
-		}
-
-		if (event.key() == Input.Keys.F1)
-			SpaceImperatorGame.s.introScreen = true;
-
-		thrustCheck();
-	}
-
-	@Override
-	public void onKeyTyped(TypedEvent event) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void onKeyUp(Event event) {
-		if (event.key() == Input.Keys.W)
-			forwardThrust = false;
-		if (event.key() == Input.Keys.S)
-			stopThrust = false;
-		if (event.key() == Input.Keys.A)
-			leftThrust = false;
-		if (event.key() == Input.Keys.D)
-			rightThrust = false;
-
-		thrustCheck();
-	}
-
-	@Override
-	public void onMouseDown(ButtonEvent event) {
-		if (inputGotten())
-			return;
-
-		// System.out.println(screenToReal(new Vector2(event.x(), event.y())));
-
-		if (event.button() == Input.Buttons.LEFT)
-			fireBolts = true;
-		if (event.button() == Input.Buttons.RIGHT)
-			fireMissiles = true;
-	}
-
-	@Override
-	public void onMouseMove(MotionEvent event) {
-		mousePos = new Vector2(event.x(), event.y());
-	}
-
-	@Override
-	public void onMouseUp(ButtonEvent event) {
-		if (event.button() == Mouse.BUTTON_LEFT)
-			fireBolts = false;
-		if (event.button() == Mouse.BUTTON_RIGHT)
-			fireMissiles = false;
-	}
-
-	@Override
-	public void onMouseWheelScroll(WheelEvent event) {
-		// TODO Auto-generated method stub
-
+	public boolean mouseMoved(int screenX, int screenY) {
+		mousePos = new Vector2(screenX, screenY);
+		return true;
 	}
 
 	@Override
@@ -344,7 +320,7 @@ public abstract class Ship extends Actor implements InputProcessor {
 	}
 
 	public void runAI() {
-		float range = SpaceImperatorGame.s.pc.body.getPosition().sub(body.getPosition()).length();
+		float range = SpaceImperatorGame.s.pc.body.getPosition().sub(body.getPosition()).len();
 
 		thrust = -1;
 		strafe = 0;
@@ -379,9 +355,9 @@ public abstract class Ship extends Actor implements InputProcessor {
 			Vector2 pCenter = body.getPosition().add(new Vector2((float) Math.cos(body.getAngle()), (float) Math.sin(body.getAngle())));
 			Vector2 pRight = body.getPosition().add(new Vector2((float) Math.cos(body.getAngle() + 0.1f), (float) Math.sin(body.getAngle() + 0.1f)));
 
-			float lLeft = movePos.sub(pLeft).lengthSquared();
-			float lCenter = movePos.sub(pCenter).lengthSquared();
-			float lRight = movePos.sub(pRight).lengthSquared();
+			float lLeft = movePos.cpy().sub(pLeft).len2();
+			float lCenter = movePos.cpy().sub(pCenter).len2();
+			float lRight = movePos.cpy().sub(pRight).len2();
 
 			thrust = -1;
 
@@ -403,11 +379,17 @@ public abstract class Ship extends Actor implements InputProcessor {
 															 * + (float)Math.PI
 															 * / 2
 															 */;
-		float dist = delta.length() / 16;
+		float dist = delta.len() / 16;
 
 		Vector2 pos = body.getPosition().add(new Vector2((float) Math.cos(angle) * dist, (float) Math.sin(angle) * dist));
 
 		return pos;
+	}
+
+	@Override
+	public boolean scrolled(int amount) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 	@Override
@@ -433,6 +415,36 @@ public abstract class Ship extends Actor implements InputProcessor {
 	}
 
 	@Override
+	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+		if (inputGotten())
+			return false;
+
+		// System.out.println(screenToReal(new Vector2(event.x(), event.y())));
+
+		if (button == Input.Buttons.LEFT)
+			fireBolts = true;
+		if (button == Input.Buttons.RIGHT)
+			fireMissiles = true;
+
+		return true;
+	}
+
+	@Override
+	public boolean touchDragged(int screenX, int screenY, int pointer) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+		if (button == Input.Buttons.LEFT)
+			fireBolts = false;
+		if (button == Input.Buttons.RIGHT)
+			fireMissiles = false;
+		return true;
+	}
+
+	@Override
 	public void update() {
 		// if(body.getAngularVelocity() < 0.5f) body.applyAngularImpulse(.5f);
 
@@ -445,19 +457,19 @@ public abstract class Ship extends Actor implements InputProcessor {
 			Vector2 delta = aim.sub(body.getPosition());
 			// System.out.println(delta);
 			float angle = body.getAngle();
-			firePoint.x = (float) Math.cos(angle) * delta.length();
-			firePoint.y = (float) Math.sin(angle) * delta.length();
-			firePoint.addLocal(body.getPosition());
+			firePoint.x = (float) Math.cos(angle) * delta.len();
+			firePoint.y = (float) Math.sin(angle) * delta.len();
+			firePoint.add(body.getPosition());
 		}
 
 		if (!hasTurrets()) {
-			Vector2 pLeft = body.getPosition().add(new Vector2((float) Math.cos(body.getAngle() - 0.1f), (float) Math.sin(body.getAngle() - 0.1f)));
-			Vector2 pCenter = body.getPosition().add(new Vector2((float) Math.cos(body.getAngle()), (float) Math.sin(body.getAngle())));
-			Vector2 pRight = body.getPosition().add(new Vector2((float) Math.cos(body.getAngle() + 0.1f), (float) Math.sin(body.getAngle() + 0.1f)));
+			Vector2 pLeft = body.getPosition().cpy().add(new Vector2((float) Math.cos(body.getAngle() - 0.1f), (float) Math.sin(body.getAngle() - 0.1f)));
+			Vector2 pCenter = body.getPosition().cpy().add(new Vector2((float) Math.cos(body.getAngle()), (float) Math.sin(body.getAngle())));
+			Vector2 pRight = body.getPosition().cpy().add(new Vector2((float) Math.cos(body.getAngle() + 0.1f), (float) Math.sin(body.getAngle() + 0.1f)));
 
-			float lLeft = aim.sub(pLeft).lengthSquared();
-			float lCenter = aim.sub(pCenter).lengthSquared();
-			float lRight = aim.sub(pRight).lengthSquared();
+			float lLeft = aim.sub(pLeft).len2();
+			float lCenter = aim.sub(pCenter).len2();
+			float lRight = aim.sub(pRight).len2();
 
 			if (lLeft < lCenter && lLeft < lRight)
 				turn = -1;
@@ -476,22 +488,22 @@ public abstract class Ship extends Actor implements InputProcessor {
 		if (thrust == 1) {
 			Vector2 velVec = new Vector2((float) Math.cos(body.getAngle()) * this.getThrustPower(), (float) Math.sin(body.getAngle()) * this.getThrustPower());
 
-			body.applyLinearImpulse(velVec, body.getPosition());
+			body.applyLinearImpulse(velVec, body.getPosition(), true);
 			// System.out.println("FULL PO");
 		}
 
 		if (thrust == -1) {
 			Vector2 velVec = new Vector2(body.getLinearVelocity());
-			velVec.normalize();
+			velVec.nor();
 
-			velVec.mulLocal(-getThrustPower());
+			velVec.scl(-getThrustPower());
 
-			body.applyLinearImpulse(velVec, body.getPosition());
+			body.applyLinearImpulse(velVec, body.getPosition(), true);
 		}
 
 		if (!hasTurrets())
 			body.applyLinearImpulse(new Vector2((float) Math.cos(body.getAngle() + Math.PI / 2) * this.getThrustPower() * strafe, (float) Math.sin(body.getAngle() + Math.PI / 2) * this.getThrustPower() * strafe),
-					body.getPosition());
+					body.getPosition(), true);
 
 		for (Gun g : guns) {
 			g.update();
@@ -506,9 +518,9 @@ public abstract class Ship extends Actor implements InputProcessor {
 
 		final float SPEED_LIMIT = 400;
 
-		if (body.getLinearVelocity().length() > SPEED_LIMIT) {
-			body.getLinearVelocity().normalize();
-			body.getLinearVelocity().mulLocal(SPEED_LIMIT);
+		if (body.getLinearVelocity().len() > SPEED_LIMIT) {
+			body.getLinearVelocity().nor();
+			body.getLinearVelocity().scl(SPEED_LIMIT);
 		}
 
 		if (fireMissiles && missileCooldown <= 0 && (this != SpaceImperatorGame.s.pc || SpaceImperatorGame.s.credits >= MISSILE_COST)) {
@@ -517,7 +529,7 @@ public abstract class Ship extends Actor implements InputProcessor {
 
 			for (Actor a : SpaceImperatorGame.s.actors) {
 				if (a instanceof Ship && a != this) {
-					float dist = a.body.getPosition().sub(aim).lengthSquared();
+					float dist = a.body.getPosition().cpy().sub(aim).len2();
 
 					if (dist < bestDist) {
 						bestDist = dist;
@@ -544,7 +556,7 @@ public abstract class Ship extends Actor implements InputProcessor {
 			boolean nearAlliedPlanet = false;
 
 			for (Actor a : SpaceImperatorGame.s.actors) {
-				if (a instanceof Planet && ((Planet) a).ownedByPlayer && a.body.getPosition().sub(body.getPosition()).length() < ((Planet) a).getRadius() + 10)
+				if (a instanceof Planet && ((Planet) a).ownedByPlayer && a.body.getPosition().cpy().sub(body.getPosition()).len() < ((Planet) a).getRadius() + 10)
 					nearAlliedPlanet = true;
 			}
 
