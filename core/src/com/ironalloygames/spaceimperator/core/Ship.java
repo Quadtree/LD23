@@ -256,7 +256,7 @@ public abstract class Ship extends Actor implements InputProcessor {
 			upgrade();
 		}
 
-		if (keycode == Input.Keys.F1)
+		if (keycode == Input.Keys.F1 || keycode == Input.Keys.H)
 			SpaceImperatorGame.s.introScreen = true;
 
 		thrustCheck();
