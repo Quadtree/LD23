@@ -3,6 +3,8 @@ package com.ironalloygames.spaceimperator.core;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
@@ -26,6 +28,17 @@ public class Surface {
 
 	public void begin() {
 		setIdentityTransform();
+
+		OrthographicCamera ortho = new OrthographicCamera(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
+		ortho.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		// ortho.position.x = -Gdx.graphics.getWidth();
+		// ortho.position.y = -Gdx.graphics.getHeight();
+		// ortho.translate(-Gdx.graphics.getWidth() / 2,
+		// -Gdx.graphics.getHeight() / 2);
+		ortho.update();
+
+		batch.setProjectionMatrix(ortho.combined);
+
 		batch.begin();
 	}
 
