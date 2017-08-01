@@ -1,28 +1,24 @@
 package com.ironalloygames.spaceimperator.core;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
 public class Surface {
 
-	public void drawImage(Image minimap, float f, float g) {
-		// TODO Auto-generated method stub
+	SpriteBatch batch;
 
+	public Surface() {
+		batch = new SpriteBatch();
 	}
 
-	public void drawImage(Image img, float f, float g, float tileSize, float tileSize2) {
-		// TODO Auto-generated method stub
-
+	public void drawImage(Image img, float x, float y) {
+		drawImage(img, x, y, img.width(), img.height());
 	}
 
-	public void drawImage(Image dust, float f, int i, float dustLength, int j) {
-		// TODO Auto-generated method stub
-
+	public void drawImage(Image img, float x, float y, float w, float h) {
+		batch.draw(img.sprite, x, y, w, h);
 	}
 
-	public void drawImage(Image titleImage, int i, int j) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void drawText(String string, int i, int j) {
+	public void drawText(String string, float x, float y) {
 		// TODO Auto-generated method stub
 
 	}
