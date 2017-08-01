@@ -1,10 +1,7 @@
 package com.ironalloygames.spaceimperator.core;
 
-import java.awt.Component;
 import java.util.ArrayList;
 import java.util.Random;
-
-import javax.swing.Renderer;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
@@ -14,7 +11,7 @@ import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
 
-public class SpaceImperatorGame implements Renderer, ContactListener {
+public class SpaceImperatorGame implements ContactListener {
 
 	public static SpaceImperatorGame s;
 	public final static int WINDOW_HEIGHT = 768;
@@ -77,14 +74,6 @@ public class SpaceImperatorGame implements Renderer, ContactListener {
 
 	@Override
 	public void endContact(Contact contact) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public Component getComponent() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	public void init() {
@@ -144,14 +133,10 @@ public class SpaceImperatorGame implements Renderer, ContactListener {
 
 	@Override
 	public void postSolve(Contact contact, ContactImpulse impulse) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void preSolve(Contact contact, Manifold oldManifold) {
-		// TODO Auto-generated method stub
-
 	}
 
 	public void render(Surface surface) {
@@ -250,12 +235,6 @@ public class SpaceImperatorGame implements Renderer, ContactListener {
 		if (introScreen) {
 			surface.drawImage(introImage, 0, 0);
 		}
-	}
-
-	@Override
-	public void setValue(Object aValue, boolean isSelected) {
-		// TODO Auto-generated method stub
-
 	}
 
 	public void update(float delta) {
