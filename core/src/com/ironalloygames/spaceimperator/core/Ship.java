@@ -393,7 +393,7 @@ public abstract class Ship extends Actor implements InputProcessor {
 			if (range < 50)
 				fireBolts = true;
 
-			Vector2 movePos = aim.add(new Vector2(20, 0));
+			Vector2 movePos = aim.cpy().add(new Vector2(20, 0));
 
 			Vector2 pLeft = body.getPosition().cpy().add(new Vector2((float) Math.cos(body.getAngle() - 0.1f), (float) Math.sin(body.getAngle() - 0.1f)));
 			Vector2 pCenter = body.getPosition().cpy().add(new Vector2((float) Math.cos(body.getAngle()), (float) Math.sin(body.getAngle())));
