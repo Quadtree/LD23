@@ -1,5 +1,6 @@
 package com.ironalloygames.spaceimperator.core;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 
 public abstract class Actor {
@@ -33,7 +34,7 @@ public abstract class Actor {
 	public void render(Surface target) {
 	}
 
-	void renderToMinimap(Vec2 upperLeft, Surface target) {
+	void renderToMinimap(Vector2 upperLeft, Surface target) {
 	}
 
 	void takeDamage(float amount) {

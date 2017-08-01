@@ -1,30 +1,32 @@
 package com.ironalloygames.spaceimperator.core;
 
+import com.badlogic.gdx.math.Vector2;
+
 public class Battleship extends Ship {
 
 	static Image mainGraphic;
 	static Image thrustGraphic;
 
-	public Battleship(Vec2 pos) {
+	public Battleship(Vector2 pos) {
 		super(pos);
 
-		guns.add(new BoltCannon(new Vec2(-3, -2)));
-		guns.add(new BoltCannon(new Vec2(-1, -2)));
-		guns.add(new BoltCannon(new Vec2(0.5f, -1f)));
-		guns.add(new BoltCannon(new Vec2(3.2f, -1f)));
+		guns.add(new BoltCannon(new Vector2(-3, -2)));
+		guns.add(new BoltCannon(new Vector2(-1, -2)));
+		guns.add(new BoltCannon(new Vector2(0.5f, -1f)));
+		guns.add(new BoltCannon(new Vector2(3.2f, -1f)));
 
-		guns.add(new BoltCannon(new Vec2(-3, 2)));
-		guns.add(new BoltCannon(new Vec2(-1, 2)));
-		guns.add(new BoltCannon(new Vec2(0.5f, 1f)));
-		guns.add(new BoltCannon(new Vec2(3.2f, 1f)));
+		guns.add(new BoltCannon(new Vector2(-3, 2)));
+		guns.add(new BoltCannon(new Vector2(-1, 2)));
+		guns.add(new BoltCannon(new Vector2(0.5f, 1f)));
+		guns.add(new BoltCannon(new Vector2(3.2f, 1f)));
 
-		guns.add(new PointDefense(new Vec2(2.3f, 0.8f), this));
-		guns.add(new PointDefense(new Vec2(0.0f, 0.8f), this));
-		guns.add(new PointDefense(new Vec2(-2.3f, 0.8f), this));
+		guns.add(new PointDefense(new Vector2(2.3f, 0.8f), this));
+		guns.add(new PointDefense(new Vector2(0.0f, 0.8f), this));
+		guns.add(new PointDefense(new Vector2(-2.3f, 0.8f), this));
 
-		guns.add(new PointDefense(new Vec2(2.3f, -0.8f), this));
-		guns.add(new PointDefense(new Vec2(0.0f, -0.8f), this));
-		guns.add(new PointDefense(new Vec2(-2.3f, -0.8f), this));
+		guns.add(new PointDefense(new Vector2(2.3f, -0.8f), this));
+		guns.add(new PointDefense(new Vector2(0.0f, -0.8f), this));
+		guns.add(new PointDefense(new Vector2(-2.3f, -0.8f), this));
 	}
 
 	@Override
@@ -54,8 +56,8 @@ public class Battleship extends Ship {
 	}
 
 	@Override
-	Vec2 getSize() {
-		return new Vec2(145.f / 16.f, 80.f / 16.f);
+	Vector2 getSize() {
+		return new Vector2(145.f / 16.f, 80.f / 16.f);
 	}
 
 	@Override

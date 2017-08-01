@@ -9,7 +9,7 @@ public class Explosion extends Actor {
 	float size;
 
 	public Explosion(Vector2 pos, float size) {
-		this.pos = new Vec2(pos);
+		this.pos = new Vector2(pos);
 		this.size = size;
 	}
 

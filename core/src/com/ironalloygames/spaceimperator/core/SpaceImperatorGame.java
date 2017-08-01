@@ -7,6 +7,7 @@ import java.util.Random;
 import javax.swing.Renderer;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
@@ -33,7 +34,7 @@ public class SpaceImperatorGame implements Renderer, ContactListener {
 
 	Image dust;
 
-	Vec2[] dustPos;
+	Vector2[] dustPos;
 
 	Image healthDepleted;
 	Image healthFull;
@@ -91,34 +92,34 @@ public class SpaceImperatorGame implements Renderer, ContactListener {
 
 		// graphics().rootLayer().add(graphics().createImmediateLayer(this));
 
-		world = new World(new Vec2(), false);
+		world = new World(new Vector2(), false);
 		world.setContactListener(this);
 
-		actors.add(new Planet(new Vec2(50, 50), Planet.PlanetSize.Tiny, true));
+		actors.add(new Planet(new Vector2(50, 50), Planet.PlanetSize.Tiny, true));
 
 		// overlay = graphics().createImage(WINDOW_WIDTH, WINDOW_HEIGHT);
 
-		// actors.add(new Planet(new Vec2(0, 40), Planet.PlanetSize.Tiny,
+		// actors.add(new Planet(new Vector2(0, 40), Planet.PlanetSize.Tiny,
 		// false));
 
-		actors.add(new Planet(new Vec2(550, 050), Planet.PlanetSize.Tiny, false));
-		actors.add(new Planet(new Vec2(050, 550), Planet.PlanetSize.Tiny, false));
-		actors.add(new Planet(new Vec2(350, 050), Planet.PlanetSize.Tiny, false));
-		actors.add(new Planet(new Vec2(050, 350), Planet.PlanetSize.Tiny, false));
-		actors.add(new Planet(new Vec2(250, 250), Planet.PlanetSize.Tiny, false));
+		actors.add(new Planet(new Vector2(550, 050), Planet.PlanetSize.Tiny, false));
+		actors.add(new Planet(new Vector2(050, 550), Planet.PlanetSize.Tiny, false));
+		actors.add(new Planet(new Vector2(350, 050), Planet.PlanetSize.Tiny, false));
+		actors.add(new Planet(new Vector2(050, 350), Planet.PlanetSize.Tiny, false));
+		actors.add(new Planet(new Vector2(250, 250), Planet.PlanetSize.Tiny, false));
 
-		actors.add(new Planet(new Vec2(550, 250), Planet.PlanetSize.Small, false));
-		actors.add(new Planet(new Vec2(350, 350), Planet.PlanetSize.Small, false));
-		actors.add(new Planet(new Vec2(250, 550), Planet.PlanetSize.Small, false));
+		actors.add(new Planet(new Vector2(550, 250), Planet.PlanetSize.Small, false));
+		actors.add(new Planet(new Vector2(350, 350), Planet.PlanetSize.Small, false));
+		actors.add(new Planet(new Vector2(250, 550), Planet.PlanetSize.Small, false));
 
-		actors.add(new Planet(new Vec2(420, 550), Planet.PlanetSize.Medium, false));
-		actors.add(new Planet(new Vec2(550, 420), Planet.PlanetSize.Medium, false));
+		actors.add(new Planet(new Vector2(420, 550), Planet.PlanetSize.Medium, false));
+		actors.add(new Planet(new Vector2(550, 420), Planet.PlanetSize.Medium, false));
 
-		actors.add(new Planet(new Vec2(550, 550), Planet.PlanetSize.Large, false));
+		actors.add(new Planet(new Vector2(550, 550), Planet.PlanetSize.Large, false));
 
 		// graphics().setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 
-		// actors.add(new Battleship(new Vec2(100,100)));
+		// actors.add(new Battleship(new Vector2(100,100)));
 
 		minimap = assets().getImage("images/minimap.png");
 
@@ -127,10 +128,10 @@ public class SpaceImperatorGame implements Renderer, ContactListener {
 
 		dust = assets().getImage("images/dust.png");
 
-		dustPos = new Vec2[20];
+		dustPos = new Vector2[20];
 
 		for (int i = 0; i < dustPos.length; ++i)
-			dustPos[i] = new Vec2(rand.nextFloat() * WINDOW_WIDTH, rand.nextFloat() * WINDOW_HEIGHT);
+			dustPos[i] = new Vector2(rand.nextFloat() * WINDOW_WIDTH, rand.nextFloat() * WINDOW_HEIGHT);
 
 		titleImage = assets().getImage("images/title.png");
 		introImage = assets().getImage("images/intro.png");
@@ -179,7 +180,7 @@ public class SpaceImperatorGame implements Renderer, ContactListener {
 		float dustFacing = (float) Math.atan2(pc.body.getLinearVelocity().y, pc.body.getLinearVelocity().x);
 		float dustLength = pc.body.getLinearVelocity().len() / 4;
 
-		for (Vec2 v2 : dustPos) {
+		for (Vector2 v2 : dustPos) {
 			v2.add(pc.body.getLinearVelocity().scl(-0.016f));
 
 			if (v2.x > WINDOW_WIDTH + 50 ||
@@ -212,7 +213,7 @@ public class SpaceImperatorGame implements Renderer, ContactListener {
 
 		surface.setTransform(1, 0, 0, 1, 0, 0);
 
-		Vec2 minimapUL = new Vec2(748, 48);
+		Vector2 minimapUL = new Vector2(748, 48);
 
 		surface.drawImage(minimap, minimapUL.x - 8, minimapUL.y - 8);
 
@@ -269,7 +270,7 @@ public class SpaceImperatorGame implements Renderer, ContactListener {
 		}
 		if (pc == null) {
 			credits *= 0.6f;
-			pc = new Fighter(new Vec2(56, 56));
+			pc = new Fighter(new Vector2(56, 56));
 			actors.add(pc);
 			// mouse().setListener(pc);
 			// keyboard().setListener(pc);

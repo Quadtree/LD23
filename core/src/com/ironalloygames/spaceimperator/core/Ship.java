@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
@@ -22,12 +23,12 @@ public abstract class Ship extends Actor implements InputProcessor {
 	final static float REPAIR_COST = 10;
 
 	// static CanvasImage starfield;
-	Vec2 aim = new Vec2();
+	Vector2 aim = new Vector2();
 	int dropPodCooldown = 0;
 	boolean fireBolts;
 
 	boolean fireMissiles;
-	Vec2 firePoint = new Vec2();
+	Vector2 firePoint = new Vector2();
 
 	boolean forwardThrust;
 
@@ -38,12 +39,12 @@ public abstract class Ship extends Actor implements InputProcessor {
 	boolean leftThrust;
 	int missileCooldown;
 
-	Vec2 mousePos;
+	Vector2 mousePos;
 
 	boolean replaced;
 
 	boolean rightThrust;
-	Vec2 startPos;
+	Vector2 startPos;
 	boolean stopThrust;
 
 	int strafe;
@@ -51,8 +52,8 @@ public abstract class Ship extends Actor implements InputProcessor {
 
 	int turn;
 
-	public Ship(Vec2 pos) {
-		startPos = new Vec2(pos);
+	public Ship(Vector2 pos) {
+		startPos = new Vector2(pos);
 
 		PolygonShape ps = new PolygonShape();
 
@@ -149,7 +150,7 @@ public abstract class Ship extends Actor implements InputProcessor {
 
 	public abstract Image getRightThrustGraphic();
 
-	abstract Vec2 getSize();
+	abstract Vector2 getSize();
 
 	public float getThrustPower() {
 		return 0;
@@ -254,7 +255,7 @@ public abstract class Ship extends Actor implements InputProcessor {
 		if (inputGotten())
 			return;
 
-		// System.out.println(screenToReal(new Vec2(event.x(), event.y())));
+		// System.out.println(screenToReal(new Vector2(event.x(), event.y())));
 
 		if (event.button() == Input.Buttons.LEFT)
 			fireBolts = true;
@@ -264,7 +265,7 @@ public abstract class Ship extends Actor implements InputProcessor {
 
 	@Override
 	public void onMouseMove(MotionEvent event) {
-		mousePos = new Vec2(event.x(), event.y());
+		mousePos = new Vector2(event.x(), event.y());
 	}
 
 	@Override
@@ -287,7 +288,7 @@ public abstract class Ship extends Actor implements InputProcessor {
 		target.translate(body.getPosition().x, body.getPosition().y);
 		target.rotate(body.getAngle());
 
-		Vec2 size = getSize();
+		Vector2 size = getSize();
 
 		target.drawImage(getGraphic(), -size.x / 2, -size.y / 2, size.x, size.y);
 
@@ -327,7 +328,7 @@ public abstract class Ship extends Actor implements InputProcessor {
 	}
 
 	@Override
-	void renderToMinimap(Vec2 upperLeft, Surface target) {
+	void renderToMinimap(Vector2 upperLeft, Surface target) {
 		Image img = null;
 
 		if (SpaceImperatorGame.s.pc == this) {
@@ -372,11 +373,11 @@ public abstract class Ship extends Actor implements InputProcessor {
 			if (range < 50)
 				fireBolts = true;
 
-			Vec2 movePos = aim.add(new Vec2(20, 0));
+			Vector2 movePos = aim.add(new Vector2(20, 0));
 
-			Vec2 pLeft = body.getPosition().add(new Vec2((float) Math.cos(body.getAngle() - 0.1f), (float) Math.sin(body.getAngle() - 0.1f)));
-			Vec2 pCenter = body.getPosition().add(new Vec2((float) Math.cos(body.getAngle()), (float) Math.sin(body.getAngle())));
-			Vec2 pRight = body.getPosition().add(new Vec2((float) Math.cos(body.getAngle() + 0.1f), (float) Math.sin(body.getAngle() + 0.1f)));
+			Vector2 pLeft = body.getPosition().add(new Vector2((float) Math.cos(body.getAngle() - 0.1f), (float) Math.sin(body.getAngle() - 0.1f)));
+			Vector2 pCenter = body.getPosition().add(new Vector2((float) Math.cos(body.getAngle()), (float) Math.sin(body.getAngle())));
+			Vector2 pRight = body.getPosition().add(new Vector2((float) Math.cos(body.getAngle() + 0.1f), (float) Math.sin(body.getAngle() + 0.1f)));
 
 			float lLeft = movePos.sub(pLeft).lengthSquared();
 			float lCenter = movePos.sub(pCenter).lengthSquared();
@@ -395,8 +396,8 @@ public abstract class Ship extends Actor implements InputProcessor {
 		}
 	}
 
-	public Vec2 screenToReal(Vec2 screen) {
-		Vec2 delta = screen.sub(new Vec2(SpaceImperatorGame.WINDOW_WIDTH / 2, SpaceImperatorGame.WINDOW_HEIGHT / 2));
+	public Vector2 screenToReal(Vector2 screen) {
+		Vector2 delta = screen.sub(new Vector2(SpaceImperatorGame.WINDOW_WIDTH / 2, SpaceImperatorGame.WINDOW_HEIGHT / 2));
 		float angle = (float) Math.atan2(delta.y, delta.x) /*
 															 * + body.getAngle()
 															 * + (float)Math.PI
@@ -404,7 +405,7 @@ public abstract class Ship extends Actor implements InputProcessor {
 															 */;
 		float dist = delta.length() / 16;
 
-		Vec2 pos = body.getPosition().add(new Vec2((float) Math.cos(angle) * dist, (float) Math.sin(angle) * dist));
+		Vector2 pos = body.getPosition().add(new Vector2((float) Math.cos(angle) * dist, (float) Math.sin(angle) * dist));
 
 		return pos;
 	}
@@ -441,7 +442,7 @@ public abstract class Ship extends Actor implements InputProcessor {
 		if (hasTurrets()) {
 			firePoint.set(aim);
 		} else {
-			Vec2 delta = aim.sub(body.getPosition());
+			Vector2 delta = aim.sub(body.getPosition());
 			// System.out.println(delta);
 			float angle = body.getAngle();
 			firePoint.x = (float) Math.cos(angle) * delta.length();
@@ -450,9 +451,9 @@ public abstract class Ship extends Actor implements InputProcessor {
 		}
 
 		if (!hasTurrets()) {
-			Vec2 pLeft = body.getPosition().add(new Vec2((float) Math.cos(body.getAngle() - 0.1f), (float) Math.sin(body.getAngle() - 0.1f)));
-			Vec2 pCenter = body.getPosition().add(new Vec2((float) Math.cos(body.getAngle()), (float) Math.sin(body.getAngle())));
-			Vec2 pRight = body.getPosition().add(new Vec2((float) Math.cos(body.getAngle() + 0.1f), (float) Math.sin(body.getAngle() + 0.1f)));
+			Vector2 pLeft = body.getPosition().add(new Vector2((float) Math.cos(body.getAngle() - 0.1f), (float) Math.sin(body.getAngle() - 0.1f)));
+			Vector2 pCenter = body.getPosition().add(new Vector2((float) Math.cos(body.getAngle()), (float) Math.sin(body.getAngle())));
+			Vector2 pRight = body.getPosition().add(new Vector2((float) Math.cos(body.getAngle() + 0.1f), (float) Math.sin(body.getAngle() + 0.1f)));
 
 			float lLeft = aim.sub(pLeft).lengthSquared();
 			float lCenter = aim.sub(pCenter).lengthSquared();
@@ -473,14 +474,14 @@ public abstract class Ship extends Actor implements InputProcessor {
 		body.setAngularVelocity(getTurnPower() * turn);
 
 		if (thrust == 1) {
-			Vec2 velVec = new Vec2((float) Math.cos(body.getAngle()) * this.getThrustPower(), (float) Math.sin(body.getAngle()) * this.getThrustPower());
+			Vector2 velVec = new Vector2((float) Math.cos(body.getAngle()) * this.getThrustPower(), (float) Math.sin(body.getAngle()) * this.getThrustPower());
 
 			body.applyLinearImpulse(velVec, body.getPosition());
 			// System.out.println("FULL PO");
 		}
 
 		if (thrust == -1) {
-			Vec2 velVec = new Vec2(body.getLinearVelocity());
+			Vector2 velVec = new Vector2(body.getLinearVelocity());
 			velVec.normalize();
 
 			velVec.mulLocal(-getThrustPower());
@@ -489,7 +490,8 @@ public abstract class Ship extends Actor implements InputProcessor {
 		}
 
 		if (!hasTurrets())
-			body.applyLinearImpulse(new Vec2((float) Math.cos(body.getAngle() + Math.PI / 2) * this.getThrustPower() * strafe, (float) Math.sin(body.getAngle() + Math.PI / 2) * this.getThrustPower() * strafe), body.getPosition());
+			body.applyLinearImpulse(new Vector2((float) Math.cos(body.getAngle() + Math.PI / 2) * this.getThrustPower() * strafe, (float) Math.sin(body.getAngle() + Math.PI / 2) * this.getThrustPower() * strafe),
+					body.getPosition());
 
 		for (Gun g : guns) {
 			g.update();
