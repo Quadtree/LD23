@@ -234,6 +234,7 @@ public class SpaceImperatorGame implements ContactListener {
 		// surface.drawImage(overlay, 0, 0);
 
 		if (introScreen) {
+			surface.setIdentityTransform();
 			surface.drawImage(introImage, 0, 0);
 		}
 	}

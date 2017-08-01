@@ -14,6 +14,8 @@ public class Surface {
 
 	BitmapFont mainFont;
 
+	boolean needToRestartBatch = false;
+
 	List<Matrix4> transformStack = new ArrayList<Matrix4>();
 
 	public Surface() {
@@ -22,7 +24,15 @@ public class Surface {
 	}
 
 	public void begin() {
+		setIdentityTransform();
 		batch.begin();
+	}
+
+	private void beginBatchIfStopped() {
+		if (needToRestartBatch) {
+			batch.begin();
+			needToRestartBatch = false;
+		}
 	}
 
 	public void drawImage(Image img, float x, float y) {
@@ -41,13 +51,24 @@ public class Surface {
 		batch.end();
 	}
 
+	private void endBatchIfStarted() {
+		if (batch.isDrawing()) {
+			batch.end();
+			needToRestartBatch = true;
+		}
+	}
+
 	public void restore() {
+		endBatchIfStarted();
 		batch.setTransformMatrix(transformStack.get(transformStack.size() - 1));
 		transformStack.remove(transformStack.size() - 1);
+		beginBatchIfStopped();
 	}
 
 	public void rotate(float rot) {
+		endBatchIfStarted();
 		batch.getTransformMatrix().rotate(new Vector3(0, 0, 1), rot);
+		beginBatchIfStopped();
 	}
 
 	public void save() {
@@ -55,15 +76,21 @@ public class Surface {
 	}
 
 	public void scale(float x, float y) {
+		endBatchIfStarted();
 		batch.getTransformMatrix().scale(x, y, 1);
+		beginBatchIfStopped();
 	}
 
 	public void setIdentityTransform() {
+		endBatchIfStarted();
 		batch.getTransformMatrix().idt();
+		beginBatchIfStopped();
 	}
 
 	public void translate(float x, float y) {
+		endBatchIfStarted();
 		batch.getTransformMatrix().translate(x, y, 0);
+		beginBatchIfStopped();
 	}
 
 }
