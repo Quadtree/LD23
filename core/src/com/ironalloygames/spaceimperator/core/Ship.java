@@ -465,9 +465,9 @@ public abstract class Ship extends Actor implements InputProcessor {
 			Vector2 pCenter = body.getPosition().cpy().add(new Vector2((float) Math.cos(body.getAngle()), (float) Math.sin(body.getAngle())));
 			Vector2 pRight = body.getPosition().cpy().add(new Vector2((float) Math.cos(body.getAngle() + 0.1f), (float) Math.sin(body.getAngle() + 0.1f)));
 
-			float lLeft = aim.sub(pLeft).len2();
-			float lCenter = aim.sub(pCenter).len2();
-			float lRight = aim.sub(pRight).len2();
+			float lLeft = aim.cpy().sub(pLeft).len2();
+			float lCenter = aim.cpy().sub(pCenter).len2();
+			float lRight = aim.cpy().sub(pRight).len2();
 
 			if (lLeft < lCenter && lLeft < lRight)
 				turn = -1;

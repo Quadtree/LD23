@@ -34,7 +34,7 @@ public class Bolt extends Actor {
 
 		body.createFixture(fd);
 
-		Vector2 vel = target.sub(source);
+		Vector2 vel = target.cpy().sub(source);
 		vel.nor();
 
 		body.setLinearVelocity(vel.scl(400).add(velocityBase));

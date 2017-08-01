@@ -28,7 +28,7 @@ public class DropPod extends Actor {
 		bd.position.set(source);
 		bd.type = BodyType.DynamicBody;
 
-		bd.angle = (float) Math.atan2(target.sub(source).y, target.sub(source).x);
+		bd.angle = (float) Math.atan2(target.cpy().sub(source).y, target.cpy().sub(source).x);
 
 		body = SpaceImperatorGame.s.world.createBody(bd);
 		body.setUserData(this);
@@ -42,7 +42,7 @@ public class DropPod extends Actor {
 
 		body.createFixture(fd);
 
-		Vector2 vel = target.sub(source);
+		Vector2 vel = target.cpy().sub(source);
 		vel.nor();
 
 		body.setLinearVelocity(velocityBase);

@@ -11,7 +11,7 @@ public class Beam extends Actor {
 	float width;
 
 	public Beam(Vector2 source, Vector2 target) {
-		Vector2 delta = target.sub(source);
+		Vector2 delta = target.cpy().sub(source);
 
 		angle = (float) Math.atan2(delta.y, delta.x);
 		length = delta.len();
