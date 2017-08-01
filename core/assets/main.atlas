@@ -1,0 +1,347 @@
+
+main.png
+size: 2048,2048
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+aimcircle
+  rotate: false
+  xy: 1146, 594
+  size: 50, 50
+  orig: 50, 50
+  offset: 0, 0
+  index: -1
+aimpoint
+  rotate: false
+  xy: 1404, 1370
+  size: 50, 50
+  orig: 50, 50
+  offset: 0, 0
+  index: -1
+battleship
+  rotate: false
+  xy: 1756, 1966
+  size: 145, 80
+  orig: 145, 80
+  offset: 0, 0
+  index: -1
+battleship_fwd
+  rotate: false
+  xy: 802, 312
+  size: 145, 80
+  orig: 145, 80
+  offset: 0, 0
+  index: -1
+beam
+  rotate: false
+  xy: 2, 29
+  size: 50, 15
+  orig: 50, 15
+  offset: 0, 0
+  index: -1
+bg
+  rotate: false
+  xy: 2, 46
+  size: 798, 598
+  orig: 798, 598
+  offset: 0, 0
+  index: -1
+bolt
+  rotate: false
+  xy: 1496, 1467
+  size: 50, 50
+  orig: 50, 50
+  offset: 0, 0
+  index: -1
+cruiser
+  rotate: false
+  xy: 1054, 549
+  size: 90, 95
+  orig: 90, 95
+  offset: 0, 0
+  index: -1
+cruiser_fwd
+  rotate: false
+  xy: 1404, 1422
+  size: 90, 95
+  orig: 90, 95
+  offset: 0, 0
+  index: -1
+defense
+  rotate: false
+  xy: 1581, 1582
+  size: 50, 50
+  orig: 50, 50
+  offset: 0, 0
+  index: -1
+defense_enemy
+  rotate: false
+  xy: 1663, 1644
+  size: 50, 50
+  orig: 50, 50
+  offset: 0, 0
+  index: -1
+drop_pod
+  rotate: false
+  xy: 1756, 1852
+  size: 50, 50
+  orig: 50, 50
+  offset: 0, 0
+  index: -1
+dust
+  rotate: false
+  xy: 2, 2
+  size: 25, 25
+  orig: 25, 25
+  offset: 0, 0
+  index: -1
+fighter
+  rotate: false
+  xy: 29, 2
+  size: 25, 25
+  orig: 25, 25
+  offset: 0, 0
+  index: -1
+fighter_fwd
+  rotate: false
+  xy: 1903, 1968
+  size: 25, 25
+  orig: 25, 25
+  offset: 0, 0
+  index: -1
+fighter_sl
+  rotate: false
+  xy: 802, 232
+  size: 25, 25
+  orig: 25, 25
+  offset: 0, 0
+  index: -1
+fighter_sr
+  rotate: false
+  xy: 855, 285
+  size: 25, 25
+  orig: 25, 25
+  offset: 0, 0
+  index: -1
+frigate
+  rotate: false
+  xy: 1581, 1634
+  size: 80, 60
+  orig: 80, 60
+  offset: 0, 0
+  index: -1
+frigate_fwd
+  rotate: false
+  xy: 1756, 1904
+  size: 80, 60
+  orig: 80, 60
+  offset: 0, 0
+  index: -1
+health_depleted
+  rotate: false
+  xy: 1633, 1612
+  size: 20, 20
+  orig: 20, 20
+  offset: 0, 0
+  index: -1
+health_full
+  rotate: false
+  xy: 1715, 1674
+  size: 20, 20
+  orig: 20, 20
+  offset: 0, 0
+  index: -1
+heavy_fighter
+  rotate: false
+  xy: 1903, 1995
+  size: 51, 51
+  orig: 51, 51
+  offset: 0, 0
+  index: -1
+heavy_fighter_fwd
+  rotate: false
+  xy: 802, 259
+  size: 51, 51
+  orig: 51, 51
+  offset: 0, 0
+  index: -1
+heavy_fighter_sl
+  rotate: false
+  xy: 949, 341
+  size: 51, 51
+  orig: 51, 51
+  offset: 0, 0
+  index: -1
+heavy_fighter_sr
+  rotate: false
+  xy: 1054, 496
+  size: 51, 51
+  orig: 51, 51
+  offset: 0, 0
+  index: -1
+minimap
+  rotate: false
+  xy: 802, 394
+  size: 250, 250
+  orig: 250, 250
+  offset: 0, 0
+  index: -1
+missile
+  rotate: false
+  xy: 949, 314
+  size: 25, 25
+  orig: 25, 25
+  offset: 0, 0
+  index: -1
+mmi_planet_large_allied
+  rotate: false
+  xy: 1002, 367
+  size: 25, 25
+  orig: 25, 25
+  offset: 0, 0
+  index: -1
+mmi_planet_large_enemy
+  rotate: false
+  xy: 1054, 469
+  size: 25, 25
+  orig: 25, 25
+  offset: 0, 0
+  index: -1
+mmi_planet_medium_allied
+  rotate: false
+  xy: 1107, 522
+  size: 25, 25
+  orig: 25, 25
+  offset: 0, 0
+  index: -1
+mmi_planet_medium_enemy
+  rotate: false
+  xy: 1146, 567
+  size: 25, 25
+  orig: 25, 25
+  offset: 0, 0
+  index: -1
+mmi_planet_small_allied
+  rotate: false
+  xy: 1198, 619
+  size: 25, 25
+  orig: 25, 25
+  offset: 0, 0
+  index: -1
+mmi_planet_small_enemy
+  rotate: false
+  xy: 1404, 1343
+  size: 25, 25
+  orig: 25, 25
+  offset: 0, 0
+  index: -1
+mmi_planet_tiny_allied
+  rotate: false
+  xy: 1456, 1395
+  size: 25, 25
+  orig: 25, 25
+  offset: 0, 0
+  index: -1
+mmi_planet_tiny_enemy
+  rotate: false
+  xy: 1496, 1440
+  size: 25, 25
+  orig: 25, 25
+  offset: 0, 0
+  index: -1
+mmi_player
+  rotate: false
+  xy: 1548, 1492
+  size: 25, 25
+  orig: 25, 25
+  offset: 0, 0
+  index: -1
+mmi_ship
+  rotate: false
+  xy: 1581, 1555
+  size: 25, 25
+  orig: 25, 25
+  offset: 0, 0
+  index: -1
+planet_large
+  rotate: false
+  xy: 2, 646
+  size: 1400, 1400
+  orig: 1400, 1400
+  offset: 0, 0
+  index: -1
+planet_small
+  rotate: false
+  xy: 1404, 1696
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+planet_tiny
+  rotate: false
+  xy: 1404, 1519
+  size: 175, 175
+  orig: 175, 175
+  offset: 0, 0
+  index: -1
+pop
+  rotate: false
+  xy: 1838, 1914
+  size: 50, 50
+  orig: 50, 50
+  offset: 0, 0
+  index: -1
+shot_hit
+  rotate: false
+  xy: 1956, 1996
+  size: 50, 50
+  orig: 50, 50
+  offset: 0, 0
+  index: -1
+
+main2.png
+size: 2048,2048
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+defeat
+  rotate: false
+  xy: 2, 772
+  size: 1024, 768
+  orig: 1024, 768
+  offset: 0, 0
+  index: -1
+intro
+  rotate: false
+  xy: 2, 2
+  size: 1024, 768
+  orig: 1024, 768
+  offset: 0, 0
+  index: -1
+planet_medium
+  rotate: false
+  xy: 1028, 840
+  size: 700, 700
+  orig: 700, 700
+  offset: 0, 0
+  index: -1
+
+main3.png
+size: 2048,2048
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+title
+  rotate: false
+  xy: 2, 772
+  size: 1024, 768
+  orig: 1024, 768
+  offset: 0, 0
+  index: -1
+victory
+  rotate: false
+  xy: 2, 2
+  size: 1024, 768
+  orig: 1024, 768
+  offset: 0, 0
+  index: -1

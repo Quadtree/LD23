@@ -156,7 +156,8 @@ public class SpaceImperatorGame implements ContactListener {
 			return;
 		}
 
-		surface.setTransform(1, 0, 0, 1, 0, 0);
+		// surface.setTransform(1, 0, 0, 1, 0, 0);
+		surface.setIdentityTransform();
 
 		// surface.drawImage(minimap, 8, 8);
 

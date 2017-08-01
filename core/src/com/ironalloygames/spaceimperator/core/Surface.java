@@ -1,13 +1,24 @@
 package com.ironalloygames.spaceimperator.core;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Matrix4;
+import com.badlogic.gdx.math.Vector3;
 
 public class Surface {
 
 	SpriteBatch batch;
 
+	BitmapFont mainFont;
+
+	List<Matrix4> transformStack = new ArrayList<Matrix4>();
+
 	public Surface() {
 		batch = new SpriteBatch();
+		mainFont = new BitmapFont();
 	}
 
 	public void drawImage(Image img, float x, float y) {
@@ -19,28 +30,28 @@ public class Surface {
 	}
 
 	public void drawText(String string, float x, float y) {
-		// TODO Auto-generated method stub
-
+		mainFont.draw(batch, string, x, y);
 	}
 
 	public void restore() {
-		// TODO Auto-generated method stub
-
+		batch.setTransformMatrix(transformStack.get(transformStack.size() - 1));
+		transformStack.remove(transformStack.size() - 1);
 	}
 
-	public void rotate(float dustFacing) {
-		// TODO Auto-generated method stub
-
+	public void rotate(float rot) {
+		batch.getTransformMatrix().rotate(new Vector3(0, 0, 1), rot);
 	}
 
 	public void save() {
-		// TODO Auto-generated method stub
-
+		transformStack.add(batch.getTransformMatrix().cpy());
 	}
 
-	public void scale(int i, int j) {
-		// TODO Auto-generated method stub
+	public void scale(float x, float y) {
+		batch.getTransformMatrix().scale(x, y, 1);
+	}
 
+	public void setIdentityTransform() {
+		batch.getTransformMatrix().idt();
 	}
 
 	public void setTransform(int i, int j, int k, int l, int m, int n) {
@@ -49,13 +60,7 @@ public class Surface {
 	}
 
 	public void translate(float x, float y) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void translate(int i, int j) {
-		// TODO Auto-generated method stub
-
+		batch.getTransformMatrix().translate(x, y, 0);
 	}
 
 }

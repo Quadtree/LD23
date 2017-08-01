@@ -8,12 +8,24 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class LD23 extends ApplicationAdapter {
 	SpriteBatch batch;
+	long doneMs = 0;
+
+	SpaceImperatorGame game;
+
 	Texture img;
+
+	Surface surf;
 
 	@Override
 	public void create() {
 		batch = new SpriteBatch();
 		img = new Texture("badlogic.jpg");
+
+		surf = new Surface();
+		game = new SpaceImperatorGame();
+		game.init();
+
+		doneMs = System.currentTimeMillis();
 	}
 
 	@Override
@@ -24,10 +36,18 @@ public class LD23 extends ApplicationAdapter {
 
 	@Override
 	public void render() {
-		Gdx.gl.glClearColor(1, 0, 0, 1);
+
+		while (System.currentTimeMillis() > doneMs) {
+			game.update(0.0016f);
+			doneMs += 16;
+		}
+
+		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.begin();
-		batch.draw(img, 0, 0);
+
+		game.render(surf);
+
 		batch.end();
 	}
 }
