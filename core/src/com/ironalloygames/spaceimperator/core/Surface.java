@@ -21,6 +21,10 @@ public class Surface {
 		mainFont = new BitmapFont();
 	}
 
+	public void begin() {
+		batch.begin();
+	}
+
 	public void drawImage(Image img, float x, float y) {
 		drawImage(img, x, y, img.width(), img.height());
 	}
@@ -31,6 +35,10 @@ public class Surface {
 
 	public void drawText(String string, float x, float y) {
 		mainFont.draw(batch, string, x, y);
+	}
+
+	public void end() {
+		batch.end();
 	}
 
 	public void restore() {
@@ -52,11 +60,6 @@ public class Surface {
 
 	public void setIdentityTransform() {
 		batch.getTransformMatrix().idt();
-	}
-
-	public void setTransform(int i, int j, int k, int l, int m, int n) {
-		// TODO Auto-generated method stub
-
 	}
 
 	public void translate(float x, float y) {

@@ -12,7 +12,7 @@ public class DesktopLauncher {
 		Settings st = new Settings();
 		st.maxWidth = 2048;
 		st.maxHeight = 2048;
-		TexturePacker.process(st, "../../raw_assets/", ".", "./main");
+		TexturePacker.processIfModified(st, "../../raw_assets/", ".", "./main");
 
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.width = 1024;

@@ -26,7 +26,8 @@ public class PlayN {
 		}
 
 		public Sound getSound(String name) {
-			name = name.replaceAll("sounds/", "");
+			name = name.replaceAll("sfx/", "");
+			name += ".mp3";
 
 			if (!sounds.containsKey(name)) {
 				sounds.put(name, Gdx.audio.newSound(Gdx.files.internal(name)));

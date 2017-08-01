@@ -197,7 +197,7 @@ public class SpaceImperatorGame implements ContactListener {
 		for (Actor a : actors)
 			a.render(surface);
 
-		surface.setTransform(1, 0, 0, 1, 0, 0);
+		surface.setIdentityTransform();
 
 		Vector2 minimapUL = new Vector2(748, 48);
 

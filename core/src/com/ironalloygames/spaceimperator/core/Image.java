@@ -11,10 +11,10 @@ public class Image {
 	}
 
 	public float height() {
-		return 0;
+		return sprite.getHeight();
 	}
 
 	public float width() {
-		return 0;
+		return sprite.getWidth();
 	}
 }
