@@ -2,6 +2,7 @@ package com.ironalloygames.spaceimperator.core;
 
 import java.util.ArrayList;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
@@ -253,8 +254,8 @@ public abstract class Ship extends Actor implements InputProcessor {
 
 	@Override
 	public boolean mouseMoved(int screenX, int screenY) {
-		mousePos = new Vector2(screenX, screenY);
-		System.out.println("mousePos=" + mousePos);
+		mousePos = new Vector2(screenX, Gdx.graphics.getHeight() - screenY);
+		// System.out.println("mousePos=" + mousePos);
 		return true;
 	}
 
@@ -286,7 +287,7 @@ public abstract class Ship extends Actor implements InputProcessor {
 			target.save();
 
 			target.translate(aim.x, aim.y);
-			target.rotate(body.getAngle());
+			// target.rotate(body.getAngle());
 			target.drawImage(aimCircle, -aimCircle.width() / 2.f / 16.f, -aimCircle.height() / 2.f / 16.f, aimCircle.width() / 16.f, aimCircle.height() / 16.f);
 
 			target.restore();
@@ -373,7 +374,7 @@ public abstract class Ship extends Actor implements InputProcessor {
 	}
 
 	public Vector2 screenToReal(Vector2 screen) {
-		Vector2 delta = screen.sub(new Vector2(SpaceImperatorGame.WINDOW_WIDTH / 2, SpaceImperatorGame.WINDOW_HEIGHT / 2));
+		Vector2 delta = screen.cpy().sub(new Vector2(SpaceImperatorGame.WINDOW_WIDTH / 2, SpaceImperatorGame.WINDOW_HEIGHT / 2));
 		float angle = (float) Math.atan2(delta.y, delta.x) /*
 															 * + body.getAngle()
 															 * + (float)Math.PI
@@ -430,6 +431,7 @@ public abstract class Ship extends Actor implements InputProcessor {
 
 	@Override
 	public boolean touchDragged(int screenX, int screenY, int pointer) {
+		mousePos = new Vector2(screenX, Gdx.graphics.getHeight() - screenY);
 		return false;
 	}
 
@@ -447,7 +449,7 @@ public abstract class Ship extends Actor implements InputProcessor {
 		// if(body.getAngularVelocity() < 0.5f) body.applyAngularImpulse(.5f);
 
 		if (mousePos != null)
-			aim = screenToReal(mousePos);
+			aim = screenToReal(mousePos.cpy());
 
 		if (hasTurrets()) {
 			firePoint.set(aim);

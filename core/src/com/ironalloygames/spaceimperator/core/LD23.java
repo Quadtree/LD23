@@ -38,7 +38,7 @@ public class LD23 extends ApplicationAdapter {
 	public void render() {
 
 		while (System.currentTimeMillis() > doneMs) {
-			game.update(0.0016f);
+			game.update(0.016f);
 			doneMs += 16;
 		}
 

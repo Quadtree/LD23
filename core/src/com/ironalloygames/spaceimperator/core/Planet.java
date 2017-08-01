@@ -91,7 +91,7 @@ public class Planet extends Actor {
 		BodyDef bd = new BodyDef();
 
 		bd.position.set(pos);
-		bd.type = BodyType.DynamicBody;
+		bd.type = BodyType.StaticBody;
 
 		body = SpaceImperatorGame.s.world.createBody(bd);
 		body.setUserData(this);
